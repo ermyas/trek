@@ -1,0 +1,34 @@
+{
+  "doc": {
+   "startMessage": "Greetings traveller.",
+   "endMessage": "Goodbye adventurer",
+   "owner": "Tony Jones",
+   "trail": [
+       {
+           "id": "10000",
+           "name": "Dog on the Tucker Box",
+           "clue": "Where would you find the Dog on the Tucker Box?",
+           "message": "Welcome to the tour of Australian icons.",
+           "site": {
+               "coord": {
+                   "latitude": -35.001143,
+                   "longitude": 148.110872
+               }
+           }
+       },
+       {
+           "id": "10001",
+           "name": "The Big Pineapple",
+           "clue": "Where is Australia's largest pineapple?",
+           "message": "message template for 10001",
+           "site": {
+               "coord": {
+                   "latitude": -26.67211,
+                   "longitude": 152.991099
+               }
+           }
+       }
+   ]
+  },
+  "kind": "puzzle"
+}
