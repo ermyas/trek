@@ -33,9 +33,14 @@ lazy val commonSettings = Seq(
                                libraryDependencies ++= commonDeps
                              )
 
-lazy val common = project.in(file("puzzle-common")).settings(commonSettings: _*)
-lazy val puzzleService = project.in(file("puzzle-service")).settings(commonSettings: _*).dependsOn(common)
-lazy val journeyService= project.in(file("journey-service")).settings(commonSettings: _*).dependsOn(common)
-lazy val playerService = project.in(file("player-service")).settings(commonSettings: _*).dependsOn(common)
-lazy val puzzleMasterService = project.in(file("puzzle-master-service")).settings(commonSettings: _*).dependsOn(common)
+lazy val thriftInterfaces = project.in(file("thrift-interfaces")).settings(commonSettings: _*)
+lazy val common = project.in(file("puzzle-common")).settings(commonSettings: _*).dependsOn(thriftInterfaces)
+lazy val puzzleService = project.in(file("puzzle-service")).settings(commonSettings: _*).
+                         dependsOn(common, thriftInterfaces)
+lazy val journeyService= project.in(file("journey-service")).settings(commonSettings: _*).
+                         dependsOn(common, thriftInterfaces)
+lazy val playerService = project.in(file("player-service")).settings(commonSettings: _*).
+                         dependsOn(common, thriftInterfaces)
+lazy val puzzleMasterService = project.in(file("puzzle-master-service")).settings(commonSettings: _*).
+                               dependsOn(common, thriftInterfaces)
 
