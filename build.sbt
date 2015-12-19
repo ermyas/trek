@@ -37,4 +37,5 @@ lazy val common = project.in(file("puzzle-common")).settings(commonSettings: _*)
 lazy val puzzleService = project.in(file("puzzle-service")).settings(commonSettings: _*).dependsOn(common)
 lazy val journeyService= project.in(file("journey-service")).settings(commonSettings: _*).dependsOn(common)
 lazy val playerService = project.in(file("player-service")).settings(commonSettings: _*).dependsOn(common)
+lazy val puzzleMasterService = project.in(file("puzzle-master-service")).settings(commonSettings: _*).dependsOn(common)
 

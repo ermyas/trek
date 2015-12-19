@@ -1,0 +1,129 @@
+@import url(http://fonts.googleapis.com/css?family=Share+Tech);
+
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+.clickable {
+    pointer-events: all;
+}
+
+#map {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+#top-layer {
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+#reset-layer {
+    z-index: 3;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+#eye {
+    width: 100%;
+    height: 100%;
+}
+
+#mask {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* progress bar */
+
+.lower-left {
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    margin: auto;
+    font-family: 'Share Tech', sans-serif;
+    color: #444;
+}
+
+#progress-arc {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#percent {
+    line-height: 20px;
+    height: 20px;
+    width: 200px;
+    top: 90px;
+    font-size: 43px;
+    text-align: center;
+    color: #3da08d;
+    opacity: 0.8
+}
+
+p, .btn {
+    position: relative;
+    left: 220px;
+    width: 200px;
+    display: block;
+    text-transform: uppercase;
+    font-size: 24px;
+    top: 30px;
+}
+
+.btn {
+    text-align: center;
+    background: #5fc2af;
+    color: #fff;
+    width: 120px;
+    height: 37px;
+    line-height: 37px;
+    cursor: pointer;
+}
+
+input {
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid #eee;
+    width: 30px;
+    font-size: 24px;
+    text-transform: capitalize;
+    font-family: 'Share Tech', sans-serif;
+    background: transparent;
+
+}
+
