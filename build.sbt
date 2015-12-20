@@ -14,6 +14,7 @@ lazy val testDeps = Seq(
   "org.specs2" %% "specs2-core" % "3.6.4" % "test",
   "org.typelevel" %% "scalaz-specs2" % "0.3.0" % "test",
   "org.scalacheck" %% "scalacheck" % "1.12.1" % "test",
+  "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test",
   "org.scalaz" %% "scalaz-scalacheck-binding" % "7.1.0" % "test",
   "ch.qos.logback" % "logback-classic" % "1.1.2" % "test")
 
@@ -30,17 +31,29 @@ lazy val commonSettings = Seq(
                                scalacOptions ++= Seq("-Yrangepos", "-deprecation", "-unchecked", "-feature",
                                                      "-language:higherKinds", "-language:postfixOps"),
                                scalacOptions in Test ++= Seq("-Yrangepos"),
-                               libraryDependencies ++= commonDeps
+                               libraryDependencies ++= commonDeps,
+                               assemblyMergeStrategy in assembly := {
+                                 case "com/twitter/common/args/apt/cmdline.arg.info.txt.1" => MergeStrategy.first
+                                 case x =>
+                                   val oldStrategy = (assemblyMergeStrategy in assembly).value
+                                   oldStrategy(x)
+                               }
                              )
 
+// Projects
 lazy val thriftInterfaces = project.in(file("thrift-interfaces")).settings(commonSettings: _*)
+
 lazy val common = project.in(file("puzzle-common")).settings(commonSettings: _*).dependsOn(thriftInterfaces)
+
 lazy val puzzleService = project.in(file("puzzle-service")).settings(commonSettings: _*).
                          dependsOn(common, thriftInterfaces)
+
 lazy val journeyService= project.in(file("journey-service")).settings(commonSettings: _*).
                          dependsOn(common, thriftInterfaces)
+
 lazy val playerService = project.in(file("player-service")).settings(commonSettings: _*).
                          dependsOn(common, thriftInterfaces)
+
 lazy val puzzleMasterService = project.in(file("puzzle-master-service")).settings(commonSettings: _*).
                                dependsOn(common, thriftInterfaces)
 
