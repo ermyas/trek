@@ -7,7 +7,7 @@ assemblyJarName in assembly := "puzzle-master-service.jar"
 docker <<= (docker dependsOn assembly)
 
 imageNames in docker := Seq(ImageName(s"${organization.value}/${name.value}:latest"),
-                            ImageName(s"${organization.value}/${name.value}:v${version.value}"))
+                            ImageName(s"${organization.value}/${name.value}:${version.value}"))
 
 dockerfile in docker := {
   val artifact = (assemblyOutputPath in assembly).value
@@ -15,6 +15,5 @@ dockerfile in docker := {
   new Dockerfile {
     from("java")
     add(artifact, artifactTargetPath)
-    entryPoint("java", "-jar", artifactTargetPath)
   }
 }
