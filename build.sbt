@@ -1,7 +1,6 @@
+import sbt.Keys._
 import sbt._
-import Keys._
 com.twitter.scrooge.ScroogeSBT.newSettings
-
 
 lazy val finagleDeps = Seq(
                              "com.twitter" %% "finagle-thrift" % "6.29.0",
@@ -41,6 +40,7 @@ lazy val commonSettings = Seq(
                                }
                              )
 
+
 // Projects
 lazy val thriftInterfaces = project.in(file("thrift-interfaces")).settings(commonSettings: _*)
 
@@ -48,13 +48,17 @@ lazy val common = project.in(file("puzzle-common")).settings(commonSettings: _*)
 
 lazy val puzzleService = project.in(file("puzzle-service")).settings(commonSettings: _*).
                          dependsOn(common, thriftInterfaces)
+                         .enablePlugins(DockerPlugin)
 
 lazy val journeyService= project.in(file("journey-service")).settings(commonSettings: _*).
                          dependsOn(common, thriftInterfaces)
+                         .enablePlugins(DockerPlugin)
 
 lazy val playerService = project.in(file("player-service")).settings(commonSettings: _*).
                          dependsOn(common, thriftInterfaces)
+                         .enablePlugins(DockerPlugin)
 
 lazy val puzzleMasterService = project.in(file("puzzle-master-service")).settings(commonSettings: _*).
                                dependsOn(common, thriftInterfaces)
+                               .enablePlugins(DockerPlugin)
 
