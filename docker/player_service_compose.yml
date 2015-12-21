@@ -1,0 +1,24 @@
+playerservice:
+  image: com.ibm.trek/player-service:latest
+  ports:
+  - "8888:8888"
+  links:
+   - playerdb
+   - journeyservice
+  entrypoint: ["java",  "-jar", "~/player-service.jar", "-port=8888","-dbName=playerstore","-dbHost=playerdb",
+  "-journeyServer=journeyservice:9889"]
+playerdb:
+  image: klaemo/couchdb
+  ports:
+  - "5981:5984"
+journeyservice:
+  image: com.ibm.trek/journey-service:latest
+  links:
+   - journeydb
+  ports:
+  - "8889:9889"
+  entrypoint: ["java",  "-jar", "~/journey-service.jar", "-port=9889", "-dbName=journeystore","-dbHost=journeydb"]
+journeydb:
+  image: klaemo/couchdb:latest
+  ports:
+  - "5982:5984"

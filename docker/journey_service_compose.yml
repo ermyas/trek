@@ -1,0 +1,11 @@
+journeyservice:
+  image: com.ibm.trek/journey-service:latest
+  links:
+  - journeydb
+  ports:
+  - "9889:9889"
+  entrypoint: ["java",  "-jar", "~/journey-service.jar", "-port=9889", "-dbName=journeystore","-dbHost=journeydb"]
+journeydb:
+  image: klaemo/couchdb:latest
+  ports:
+  - "5989:5984"

@@ -1,0 +1,38 @@
+puzzlemasterservice:
+  image: com.ibm.trek/puzzle-master-service:latest
+  ports:
+   - "8886:8886"
+  links:
+   - puzzleservice
+   - playerservice
+puzzleservice:
+  image: com.ibm.trek/puzzle-service:latest
+  ports:
+   - "8887:8887"
+  links:
+   - puzzledb
+playerservice:
+  image: com.ibm.trek/player-service:latest
+  ports: 
+   - "8888:8888"
+  links:
+   - playerdb
+   - journeyservice
+journeyservice:
+  image: com.ibm.trek/journey-service:latest
+  ports:
+   - "8889:8889"
+  links:
+   - journeydb
+puzzledb:
+  image: klaemo/couchdb:latest
+  ports:
+   - "5960:5984"
+playerdb:
+  image: klaemo/couchdb:latest
+  ports:
+   - "5988:5984"
+journeydb:
+  image: klaemo/couchdb:latest
+  ports:
+   - "5989:5984"
