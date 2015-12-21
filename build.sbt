@@ -61,8 +61,4 @@ lazy val puzzleMasterService = project.in(file("puzzle-master-service")).setting
                                dependsOn(common, thriftInterfaces)
                                .enablePlugins(DockerPlugin)
 
-lazy val root = project.in(file(".")).settings(Seq(
-                                                    publish := {},
-                                                    publishLocal := {}
-                                                  )).aggregate(thriftInterfaces, common, puzzleService, journeyService,
-                                                               playerService, puzzleService, puzzleMasterService)
+lazy val root = project.in(file(".")).settings(Seq(publish := {}, publishLocal := {}))
