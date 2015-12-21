@@ -2,7 +2,6 @@ import sbt._
 import Keys._
 com.twitter.scrooge.ScroogeSBT.newSettings
 
-resolvers += "twitter-repo" at "https://maven.twttr.com"
 
 lazy val finagleDeps = Seq(
                              "com.twitter" %% "finagle-thrift" % "6.29.0",
@@ -33,6 +32,7 @@ lazy val commonSettings = Seq(
                                                      "-language:higherKinds", "-language:postfixOps"),
                                scalacOptions in Test ++= Seq("-Yrangepos"),
                                libraryDependencies ++= commonDeps,
+                               resolvers += "twitter-repo" at "https://maven.twttr.com",
                                assemblyMergeStrategy in assembly := {
                                  case "com/twitter/common/args/apt/cmdline.arg.info.txt.1" => MergeStrategy.first
                                  case x =>
