@@ -5,7 +5,7 @@ playerservice:
   links:
    - playerdb
    - journeyservice
-  entrypoint: ["java",  "-jar", "~/player-service.jar", "-port=8888","-dbName=playerstore","-dbHost=playerdb",
+  entrypoint: ["java",  "-jar", "/app/player-service.jar", "-port=8888","-dbName=playerstore","-dbHost=playerdb",
   "-journeyServer=journeyservice:9889"]
 playerdb:
   image: klaemo/couchdb
@@ -17,7 +17,7 @@ journeyservice:
    - journeydb
   ports:
   - "8889:9889"
-  entrypoint: ["java",  "-jar", "~/journey-service.jar", "-port=9889", "-dbName=journeystore","-dbHost=journeydb"]
+  entrypoint: ["java",  "-jar", "/app/journey-service.jar", "-port=9889", "-dbName=journeystore","-dbHost=journeydb"]
 journeydb:
   image: klaemo/couchdb:latest
   ports:

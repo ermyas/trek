@@ -4,7 +4,7 @@ puzzleservice:
    - puzzledb
   ports:
    - "8887:8887"
-   entrypoint: ["java",  "-jar", "~/puzzle-service.jar", "-dbName=puzzleservice", "-dbHost=puzzledb", "-port=8887"]
+   entrypoint: ["java",  "-jar", "/app/puzzle-service.jar", "-dbName=puzzleservice", "-dbHost=puzzledb", "-port=8887"]
 puzzledb:
   image: klaemo/couchdb:latest
   ports:
