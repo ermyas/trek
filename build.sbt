@@ -1,4 +1,5 @@
-import sbt.Keys._
+import sbt._
+import Keys._
 com.twitter.scrooge.ScroogeSBT.newSettings
 
 resolvers += "twitter-repo" at "https://maven.twttr.com"
