@@ -10,5 +10,12 @@ trait Fixtures extends uPickleTypes {
 
   val fixAlice = FixPerson("Alice", None)
   val fixJill  = FixPerson("Bob", None)
-  val dbConfig = DbConfig(host = "localhost", port = 5984, name = "trek-common-test", https = false)
+
+  val couchDbHost     = System.getProperty("couchDbHost", "127.0.0.1")
+  val couchDbPort     = System.getProperty("couchDbPort", "5984").toInt
+  val couchDbUsername = System.getProperty("couchDbUsername", null)
+  val couchDbPassword = System.getProperty("couchDbPassword", null)
+
+  val dbConfig = DbConfig(host = couchDbHost, port = couchDbPort, name = "trek-common-test", username =
+    Option(couchDbUsername), password = Option(couchDbPassword), https = false)
 }
