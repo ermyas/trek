@@ -1,11 +1,11 @@
 puzzleservice:
   image: com.ibm.trek/puzzle-service:latest
-  links:
-   - puzzledb
   ports:
-   - "8887:8887"
-   entrypoint: ["java",  "-jar", "/app/puzzle-service.jar", "-dbName=puzzleservice", "-dbHost=puzzledb", "-port=8887"]
+  - "8887:8887"
+  links:
+  - puzzledb
+  entrypoint: ["java",  "-jar", "/app/puzzle-service.jar", "-port=8887","-dbName=puzzlestore", "-dbHost=puzzledb"]
 puzzledb:
   image: klaemo/couchdb:latest
   ports:
-    - "5960:5984"
+  - "5960:5984"
