@@ -3,8 +3,8 @@ journeyservice:
   links:
   - journeydb
   ports:
-  - "9889:9889"
-  entrypoint: ["java",  "-jar", "/app/journey-service.jar", "-port=9889", "-dbName=journeystore","-dbHost=journeydb"]
+  - "8889:8889"
+  entrypoint: ["java",  "-jar", "/app/journey-service.jar", "-port=8889", "-dbName=journeystore","-dbHost=journeydb"]
 journeydb:
   image: klaemo/couchdb:latest
   ports:
