@@ -40,7 +40,6 @@ lazy val commonSettings = Seq(
                                }
                              )
 
-
 // Projects
 lazy val thriftInterfaces = project.in(file("thrift-interfaces")).settings(commonSettings: _*)
 
