@@ -1,16 +1,23 @@
 puzzlemasterservice:
-  image: com.ibm.trek/puzzle-master-service:latest
+  image: com.ibm.trek/puzzle-master:latest
   ports:
    - "8886:8886"
   links:
+#   - zookeeper
    - puzzleservice
    - playerservice
+  entrypoint: [ "java", "-jar", "/app/puzzle-master-service.jar", "-port=8886",
+  "-playerServiceIp=playerservice", "-puzzleServiceIp=puzzleservice" ]
 puzzleservice:
   image: com.ibm.trek/puzzle-service:latest
   ports:
    - "8887:8887"
   links:
    - puzzledb
+  entrypoint: [
+    "java",  "-jar", "/app/puzzle-service.jar", "-port=8887",
+    "-dbName=puzzlestore", "-dbHost=puzzledb"
+  ]
 playerservice:
   image: com.ibm.trek/player-service:latest
   ports: 
@@ -18,12 +25,21 @@ playerservice:
   links:
    - playerdb
    - journeyservice
+  entrypoint: [
+    "java",  "-jar", "/app/player-service.jar", "-port=8888",
+    "-dbName=playerstore","-dbHost=playerdb",
+    "-journeyServer=journeyservice:8889"
+  ]
 journeyservice:
   image: com.ibm.trek/journey-service:latest
   ports:
    - "8889:8889"
   links:
    - journeydb
+  entrypoint: [
+    "java", "-jar", "/app/journey-service.jar", "-port=8889",
+    "-dbName=journeystore", "-dbHost=journeydb"
+  ]
 puzzledb:
   image: klaemo/couchdb:latest
   ports:
@@ -36,3 +52,8 @@ journeydb:
   image: klaemo/couchdb:latest
   ports:
    - "5989:5984"
+#zookeeper:
+#  image: jplock/zookeeper:latest
+#  ports:
+#  - "2181:2181"
+
