@@ -10,10 +10,12 @@ import com.ibm.trek.puzzle.PuzzleService
 import com.ibm.trek.puzzle.master.PuzzleMasterService.FinagledService
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.http.{Http => Httpx}
+import com.twitter.finagle.thrift.ThriftClientFramedCodec
 import com.twitter.finagle.{Http, Service}
 import com.twitter.util.{Await, Duration}
 import org.apache.thrift.protocol.TJSONProtocol
 import org.apache.thrift.protocol.TJSONProtocol.Factory
+import org.apache.thrift.protocol.TBinaryProtocol
 import org.jboss.netty.handler.codec.http.{HttpRequest, HttpResponse}
 
 object PuzzleMasterServer extends Server {
@@ -50,12 +52,15 @@ object PuzzleMasterServer extends Server {
   }
 
   private def createPlayerClient(address: String): PlayerService.FinagledClient = {
-    new PlayerService.FinagledClient(new HttpClientFilter(address) andThen createHttpClient(address), protocolFactory =
-      new Factory())
+    val transport = ClientBuilder().name("playerserviceclient").dest(address).
+      codec(ThriftClientFramedCodec()).hostConnectionLimit(1).build()
+    new PlayerService.FinagledClient(transport, protocolFactory = new TBinaryProtocol.Factory())
+//    new PlayerService.FinagledClient(new HttpClientFilter(address) andThen createHttpClient(address), protocolFactory = new Factory())
   }
 
   private def createPuzzleClient(address: String): PuzzleService.FinagledClient = {
-    new PuzzleService.FinagledClient(new HttpClientFilter(address) andThen createHttpClient(address), protocolFactory =
-      new Factory())
+    val transport = ClientBuilder().name("puzzleserviceclient").dest(address).
+      codec(ThriftClientFramedCodec()).hostConnectionLimit(1).build()
+    new PuzzleService.FinagledClient(transport, protocolFactory = new TBinaryProtocol.Factory())
   }
 }
