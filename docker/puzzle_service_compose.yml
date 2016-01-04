@@ -4,7 +4,13 @@ puzzleservice:
   - "8887:8887"
   links:
   - puzzledb
-  entrypoint: ["java",  "-jar", "/app/puzzle-service.jar", "-port=8887","-dbName=puzzlestore", "-dbHost=puzzledb"]
+  external_links:
+  - zoo:zookeeper
+  entrypoint: [
+    "java", "-jar", "/app/puzzle-service.jar", "-port=8887",
+    "-dbName=puzzlestore", "-dbHost=puzzledb",
+    "-zk=zk!zookeeper:2181!/finagle/puzzle!0"
+  ]
 puzzledb:
   image: klaemo/couchdb:latest
   ports:

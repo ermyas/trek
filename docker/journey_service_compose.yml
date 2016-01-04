@@ -1,10 +1,16 @@
 journeyservice:
   image: com.ibm.trek/journey-service:latest
-  links:
-  - journeydb
   ports:
   - "8889:8889"
-  entrypoint: ["java",  "-jar", "/app/journey-service.jar", "-port=8889", "-dbName=journeystore","-dbHost=journeydb"]
+  links:
+  - journeydb
+  external_links:
+  - zoo:zookeeper
+  entrypoint: [
+    "java", "-jar", "/app/journey-service.jar", "-port=8889",
+    "-dbName=journeystore", "-dbHost=journeydb",
+    "-zk=zk!zookeeper:2181!/finagle/journey!0"
+  ]
 journeydb:
   image: klaemo/couchdb:latest
   ports:
