@@ -18,6 +18,6 @@ else
 fi
 
 
-curl -s -X PUT http://$host/puzzleservice/$puzzle -d @$data | jq .
+curl -s -X PUT http://$host/puzzlestore/$puzzle -d @$data | jq .
 
 
