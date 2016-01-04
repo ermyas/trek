@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+if [ "$#" -lt 3 ]; then
+  echo "* Data, host:port and service not provided."
+  echo "E.g., load player.json 192.168.99.100:5988 playerstore"
+  echo "Exiting."
+  exit 1
+fi
+
+data=$1
+host=$2
+service=$3
+
+if [ "$#" -eq 4 ]; then
+  uuid=$4
+else
+  id=`curl -s -X GET http://$host/_uuids  | jq '.uuids[0]'`
+  temp="${id%\"}"
+  uuid="${temp#\"}"
+fi
+
+
+curl -s -X PUT http://$host/$service/$uuid -d @$data | jq .
+
+
