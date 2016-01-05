@@ -76,7 +76,7 @@ object PuzzleMasterClient {
 
 
     log.info("Starting puzzle")
-    printResult(startRes)
+    printPuzzle(startRes)
 
     val guessResult = Await.result(puzzleMasterClient.submitGuess(playerId = player.id.get, puzzleId = puzzle.id.get,
                                                                   siteGuess = Site(Coordinate(-38.0, 145)),
@@ -93,5 +93,10 @@ object PuzzleMasterClient {
       case Some(c) => println(s"Clue: $c")
       case None => println("No clue available!")
     }
+  }
+
+  def printPuzzle(puzzle: Puzzle): Unit = {
+    println(s"Playing puzzle ${puzzle.id.get}")
+    puzzle.trail.map(_._4).foreach(println)
   }
 }

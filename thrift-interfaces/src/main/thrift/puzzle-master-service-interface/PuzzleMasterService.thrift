@@ -4,6 +4,7 @@ namespace java com.ibm.trek.puzzle.master
 include "PuzzleMasterModel.thrift"
 include "../puzzle-common-model/Model.thrift"
 include "../puzzle-common-model/Exceptions.thrift"
+include "../puzzle-service-interface/PuzzleModel.thrift"
 
 service PuzzleMasterService {
 
@@ -13,7 +14,7 @@ service PuzzleMasterService {
       3: Model.Site siteGuess, 
       4: Model.SiteId targetPuzzleSiteId) throws (1: Exceptions.PuzzleDoesNotExist e);
 
-    PuzzleMasterModel.PuzzleResponse startPuzzle(
+    PuzzleModel.Puzzle startPuzzle(
       1: Model.PlayerId playerId, 
       2: Model.PuzzleId puzzleId) throws (1: Exceptions.PuzzleDoesNotExist e);
 }

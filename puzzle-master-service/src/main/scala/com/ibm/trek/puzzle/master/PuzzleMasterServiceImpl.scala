@@ -102,23 +102,27 @@ class PuzzleMasterServiceImpl(
     }
   }
 
-  override def startPuzzle(playerId: String, puzzleId: String): Future[PuzzleResponse] = {
+  override def startPuzzle(playerId: String, puzzleId: String): Future[Puzzle] = {
 
     println("Starting new puzzle")
     println("player = " + playerId + ", puzzle = " + puzzleId)
 
     val puzzle = Await.result(puzzleClient.get(puzzleId))
-    val numberOfStages = puzzle.trail.length
-    val currentPuzzleSite = puzzle.trail.head
+    println(puzzle)
 
-    Future.value(PuzzleResponse(
-      playerId = playerId,
-      puzzleId = puzzleId,
-      nextSiteId = Some(currentPuzzleSite.id),
-      nextSiteClue = Some(currentPuzzleSite.clue),
-      message = Some(puzzle.startMessage),
-      progress = Some(Progress(0, totalStages = numberOfStages.toByte))
-    ))
+//    val numberOfStages = puzzle.trail.length
+//    val currentPuzzleSite = puzzle.trail.head
+//
+    // What we want here is to return the WHOLE puzzle
+//    Future.value(PuzzleResponse(
+//      playerId = playerId,
+//      puzzleId = puzzleId,
+//      nextSiteId = Some(currentPuzzleSite.id),
+//      nextSiteClue = Some(currentPuzzleSite.clue),
+//      message = Some(puzzle.startMessage),
+//      progress = Some(Progress(0, totalStages = numberOfStages.toByte))
+//    ))
+    Future.value(puzzle)
   }
 
   def notifyPlayerService(playerSite: PlayerSite): PlayerSite =

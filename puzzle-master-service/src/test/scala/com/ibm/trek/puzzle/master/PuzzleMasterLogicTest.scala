@@ -50,9 +50,9 @@ class PuzzleMasterLogicTest extends FlatSpec with ShouldMatchers with OneInstanc
     response.message shouldEqual None
   }
 
-  "startPuzzle" should "return the first clue" in {
-    val response = Await.result(service startPuzzle(playerId, puzzleId))
-    response.nextSiteClue shouldEqual Some(firstSite.clue)
+  "startPuzzle" should "return a whole puzzle" in {
+    val puzzle = Await.result(service startPuzzle(playerId, puzzleId))
+    puzzle._2.head.clue shouldEqual firstSite.clue
   }
 
 
