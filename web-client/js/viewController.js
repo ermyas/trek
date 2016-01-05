@@ -11,6 +11,7 @@ var puzzleInitializer = function (result) {
     showProgressBar();
     updateProgress();
     resetView();
+    $("#continue").focus();
 };
 
 var processSuccessfulGuess = function () {
