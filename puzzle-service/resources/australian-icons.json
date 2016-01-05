@@ -1,14 +1,14 @@
 {
   "doc": {
-   "startMessage": "Greetings traveller.",
-   "endMessage": "Goodbye adventurer",
+   "startMessage": "Greetings traveller, and welcome to the tour of Australian icons!",
+   "endMessage": "Goodbye adventurer, you have done so well.",
    "owner": "Tony Jones",
    "trail": [
        {
            "id": "10000",
            "name": "Dog on the Tucker Box",
            "clue": "Where would you find the Dog on the Tucker Box?",
-           "message": "Welcome to the tour of Australian icons.",
+           "message": "Right on!",
            "site": {
                "coord": {
                    "latitude": -35.001143,
@@ -20,7 +20,19 @@
            "id": "10001",
            "name": "The Big Pineapple",
            "clue": "Where is Australia's largest pineapple?",
-           "message": "message template for 10001",
+           "message": "Correct!",
+           "site": {
+               "coord": {
+                   "latitude": -26.67211,
+                   "longitude": 152.991099
+               }
+           }
+       },
+       {
+           "id": "10002",
+           "name": "Hanging Rock",
+           "clue": "A dangerous place for a picnic ... yet a distinctive geological formation",
+           "message": "Correct!",
            "site": {
                "coord": {
                    "latitude": -26.67211,
