@@ -33,17 +33,9 @@ function updateProgress() {
     animateProgress(trailIndex, trailLength);
 }
 
-function showClueCards() {
-    $("#clues").removeClass("hide");
-}
-
 function showProgressBar() {
     progressCircle.attr({stroke: "grey"});
     $("#progress").removeClass("hide");
-}
-
-function hideClueCards() {
-    $("#clues").addClass("hide");
 }
 
 function showModal(msg) {
@@ -54,6 +46,14 @@ function showModal(msg) {
 function updateClueCard(clue) {
     $('#clue').html(clue);
     showClueCards();
+}
+
+function showClueCards() {
+    $("#clues").removeClass("hide");
+}
+
+function hideClueCards() {
+    $("#clues").addClass("hide");
 }
 
 function updateView(prev, next) {
