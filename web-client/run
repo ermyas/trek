@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Generate javascript from the thrift definition files
-thrift -r --gen js --o js thrift/puzzle-master-service-interface/PuzzleMasterService.thrift
+thrift -r --gen js --o js ../thrift-interfaces/src/main/thrift/puzzle-master-service-interface/PuzzleMasterService.thrift
 
 echo "Open localhost:8000 in your browser to view your presentation"
 
