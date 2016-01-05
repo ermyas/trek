@@ -15,13 +15,13 @@ $(document).keyup(function (e) {
 
     var delta = (e.shiftKey) ? 0.2 : 1;
 
-    if (e.which == 13) { // enter key
+    if (e.which == 32) { // space
         submitGuess();
     }
     if (e.which == 65 || e.which == 73) { // a or i
         zoom();
     }
-    if (e.which == 90 || e.which == 27 || e.which == 79) { // z or escape
+    if (e.which == 90 || e.which == 79) { // z or o, or escape (27)
         zoom(-1);
     }
     if (e.which == 76) {
