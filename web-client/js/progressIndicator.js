@@ -9,7 +9,7 @@ var canvasSize = 200,
 
 var progressCircle = sn.circle(centre, centre, radius).attr({fill: "none", strokeWidth: 6, stroke: "grey"});
 
-function run(progress, total) {
+function animateProgress(progress, total) {
     var percent = progress / total;
     var endpoint = percent * 360;
     Snap.animate(0, endpoint, function (val) {

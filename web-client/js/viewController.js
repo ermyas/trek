@@ -1,25 +1,35 @@
-
 var puzzleInitializer = function (result) {
+
+    trailIndex = 0;
+    trailLength = result.trail.length;
     puzzle = result;
-    updateView(result);
-    showClueCards();
+
+    var stage = result.trail[trailIndex];
+
+    showModal(puzzle.startMessage);
+    updateClueCard(stage.clue);
     showProgressBar();
-    updateProgress(result);
+    updateProgress();
     resetView();
 };
 
-var processGuessResult = function (result) {
-    puzzle = result;
-    updateView(result);
-    animateGuess(result.correctLastGuess);
-    updateProgress(result);
+var processSuccessfulGuess = function () {
+    animateGuess(true);
+    var stage = puzzle.trail[trailIndex];
+    trailIndex++;
+
+    if (trailIndex == trailLength) {
+        var msg = stage.message + "<br/>" + puzzle.endMessage;
+        showModal(msg);
+        hideClueCards();
+    } else if (stage != null && trailIndex < trailLength) {
+        updateView(laststage, nextstage);
+    }
+    updateProgress();
 };
 
-function updateProgress(puzzleResponse) {
-    var p = puzzleResponse.progress;
-    if (p != null) {
-        run(p.currentStage, p.totalStages);
-    }
+function updateProgress() {
+    animateProgress(trailIndex, trailLength);
 }
 
 function showClueCards() {
@@ -35,15 +45,27 @@ function hideClueCards() {
     $("#clues").addClass("hide");
 }
 
-function updateView(p) {
-    if (p.message != null) {
-        $('#puzzleMessage').html(p.message);
-        $('#message').openModal();
+function showModal(msg) {
+    $('#puzzleMessage').html(msg);
+    $('#message').openModal();
+}
+
+function updateClueCard(clue) {
+    $('#clue').html(clue);
+    showClueCards();
+}
+
+function updateView(prev, next) {
+
+    if (prev.message != null) {
+        showModal(prev.message);
     }
-    if (p.nextSiteClue != null) {
-        $('#clue').html(p.nextSiteClue);
+
+    if (next != null && next.clue != null) {
+        updateClueCard(next.clue);
     } else {
         hideClueCards();
     }
+
 }
 
