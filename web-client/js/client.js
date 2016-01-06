@@ -26,9 +26,10 @@ function submitGuess() {
     if (puzzle != null && trailIndex < trailLength) {
         try {
             var guess = buildGuess();
-            //var targetId = puzzle.trail[trailIndex].id;
             console.log(puzzle.trail[trailIndex]);
             var stage = puzzle.trail[trailIndex];
+
+            // For improved performance we evaluate the guess locally
             var success = evaluateGuess(guess, stage.site.coord);
 
             var site = (success) ? stage.site : guess;
@@ -36,7 +37,10 @@ function submitGuess() {
 
             if (success) processSuccessfulGuess();
             else animateGuess(false);
-            //client.submitGuess(playerId, puzzleId, guess, targetId, processGuessResult);
+
+            // For record keeping, we submit the guess to the puzzle master service
+            var targetId = puzzle.trail[trailIndex].id;
+            client.submitGuess(playerId, puzzleId, guess, targetId, postSubmit);
         } catch (p) {
             console.log(p);
         }

@@ -14,6 +14,11 @@ var puzzleInitializer = function (result) {
     $("#continue").focus();
 };
 
+var postSubmit = function (result) {
+    console.log("Guess has been logged with remote server: ");
+    console.log(result);
+};
+
 var processSuccessfulGuess = function () {
     animateGuess(true);
     var stage = puzzle.trail[trailIndex];
