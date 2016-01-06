@@ -65,14 +65,14 @@ function hideClueCards() {
     $("#clues").addClass("hide");
 }
 
-function updateView(prev, next) {
+function updateView(currStage, nextStage) {
 
-    if (prev.message != null) {
-        showModal(prev.message);
+    if (currStage.message != null) {
+        showModal(currStage.message);
     }
 
-    if (next != null && next.clue != null) {
-        updateClueCard(next.clue);
+    if (nextStage != null && nextStage.clue != null) {
+        updateClueCard(nextStage.clue);
     } else {
         hideClueCards();
     }
