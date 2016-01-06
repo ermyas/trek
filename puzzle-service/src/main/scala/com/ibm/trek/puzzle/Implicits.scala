@@ -59,7 +59,9 @@ trait Implicits extends uPickleTypes {
       ("startMessage", writeRequired(x.startMessage)),
       ("endMessage", writeRequired(x.endMessage)),
       ("owner", writeRequired(x.owner)),
-      ("trail", writeRequired(x.trail))
+      ("trail", writeRequired(x.trail)),
+      ("startCoord", writeOptional(x.startCoord)),
+      ("startZoom", writeOptional(x.startZoom))
     )
   }, {
     case json: Js.Obj =>
@@ -69,7 +71,9 @@ trait Implicits extends uPickleTypes {
         startMessage = readRequired[String](f, "startMessage"),
         endMessage = readRequired[String](f, "endMessage"),
         owner = readRequired[String](f, "owner"),
-        trail = readRequired[Seq[PuzzleSite]](f, "trail")
+        trail = readRequired[Seq[PuzzleSite]](f, "trail"),
+        startCoord = readOptional[Coordinate](f, "startCoord"),
+        startZoom = readOptional[Int](f, "startZoom")
       )
   })
 }

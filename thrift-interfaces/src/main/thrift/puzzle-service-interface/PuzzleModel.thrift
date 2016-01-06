@@ -18,5 +18,7 @@ struct Puzzle {
   2: Trail trail,
   3: string startMessage,
   4: string endMessage,
-  5: Model.PlayerId owner
+  5: Model.PlayerId owner,
+  6: optional Model.Coordinate startCoord,
+  7: optional i32 startZoom
 }
