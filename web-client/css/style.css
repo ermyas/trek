@@ -76,6 +76,11 @@ body {
     color: #444;
 }
 
+.progressCircle {
+    stroke: #222;
+    stroke-width: 6px;
+}
+
 #progress-arc {
     width: 200px;
     height: 200px;

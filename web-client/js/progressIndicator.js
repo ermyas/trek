@@ -7,7 +7,7 @@ var canvasSize = 200,
     arc = sn.path(path),
     startY = centre - radius;
 
-var progressCircle = sn.circle(centre, centre, radius).attr({fill: "none", strokeWidth: 6, stroke: "grey"});
+var progressCircle = sn.circle(centre, centre, radius).attr({class: 'progressCircle'});
 
 function animateProgress(progress, total) {
     var percent = progress / total;
