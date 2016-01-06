@@ -6,7 +6,7 @@ include "../puzzle-common-model/Model.thrift"
 struct PuzzleSite {
   1: Model.SiteId id,
   2: string name,
-  3: string message,
+  3: optional string message,
   4: string clue,
   5: Model.Site site
 }

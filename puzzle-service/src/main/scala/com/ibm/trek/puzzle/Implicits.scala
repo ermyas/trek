@@ -48,7 +48,7 @@ trait Implicits extends uPickleTypes {
         id = readRequired[String](f, "id"),
         name = readRequired[String](f, "name"),
         clue = readRequired[String](f, "clue"),
-        message = readRequired[String](f, "message"),
+        message = readOptional[String](f, "message"),
         site = readRequired[Site](f, "site")
       )
   })

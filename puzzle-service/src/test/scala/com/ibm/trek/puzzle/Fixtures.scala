@@ -11,7 +11,7 @@ trait Fixtures extends Specification with Mockito {
   val fixSiteCotentin = Site(coord = Coordinate(latitude = 49.457051, longitude = -1.502296))
 
   val fixSiteUtahBeach = PuzzleSite(id = "utah-beach", name = "Utah Beach", clue = "The American Zones of the D-Day Landing",
-    message = "The American Zones of the D-Day Landing on June 6th 1944", site = fixSiteCotentin)
+    message = Some("The American Zones of the D-Day Landing on June 6th 1944"), site = fixSiteCotentin)
 
   val fixDDayPuzzle = Puzzle(
     trail = Seq[PuzzleSite](fixSiteUtahBeach),
