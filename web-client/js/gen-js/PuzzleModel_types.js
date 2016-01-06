@@ -126,6 +126,8 @@ Puzzle = function(args) {
   this.startMessage = null;
   this.endMessage = null;
   this.owner = null;
+  this.startCoord = null;
+  this.startZoom = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -141,6 +143,12 @@ Puzzle = function(args) {
     }
     if (args.owner !== undefined && args.owner !== null) {
       this.owner = args.owner;
+    }
+    if (args.startCoord !== undefined && args.startCoord !== null) {
+      this.startCoord = new Coordinate(args.startCoord);
+    }
+    if (args.startZoom !== undefined && args.startZoom !== null) {
+      this.startZoom = args.startZoom;
     }
   }
 };
@@ -207,6 +215,21 @@ Puzzle.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 6:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.startCoord = new Coordinate();
+        this.startCoord.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.I32) {
+        this.startZoom = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -250,6 +273,16 @@ Puzzle.prototype.write = function(output) {
   if (this.owner !== null && this.owner !== undefined) {
     output.writeFieldBegin('owner', Thrift.Type.STRING, 5);
     output.writeString(this.owner);
+    output.writeFieldEnd();
+  }
+  if (this.startCoord !== null && this.startCoord !== undefined) {
+    output.writeFieldBegin('startCoord', Thrift.Type.STRUCT, 6);
+    this.startCoord.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.startZoom !== null && this.startZoom !== undefined) {
+    output.writeFieldBegin('startZoom', Thrift.Type.I32, 7);
+    output.writeI32(this.startZoom);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

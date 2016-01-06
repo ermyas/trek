@@ -1,5 +1,8 @@
 var puzzleInitializer = function (result) {
 
+    console.log(result);
+    map.setView({lat: result.startCoord.latitude, lon: result.startCoord.longitude}, result.startZoom);
+
     trailIndex = 0;
     trailLength = result.trail.length;
     puzzle = result;
@@ -10,7 +13,7 @@ var puzzleInitializer = function (result) {
     updateClueCard(stage.clue);
     showProgressBar();
     updateProgress();
-    resetView();
+    //resetView();
     $("#continue").focus();
 };
 
