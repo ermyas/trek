@@ -63,11 +63,12 @@ var failureMarker = L.AwesomeMarkers.icon({
 
 var successMarker = L.AwesomeMarkers.icon({
     icon: 'camera',
-    markerColor: 'cadetblue'
+    markerColor: 'cadetblue',
+    labelAnchor: [15, -24]
 });
 
 function placeMarker(site, success) {
-    var mkr = (success) ? successMarker : failureMarker;
     var coords = [site.coord.latitude, site.coord.longitude];
-    L.marker(coords, {icon: mkr}).addTo(map);
+    if (success) L.marker(coords, {icon: successMarker}).bindLabel('Test', { noHide: false}).addTo(map);
+    else L.marker(coords, {icon: failureMarker}).addTo(map);
 }
