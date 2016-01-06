@@ -7,8 +7,12 @@ var map = L.mapbox.map('map', 'pkge.n40j2pkk', {doubleClickZoom: false}).setView
 });
 L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
 
-function resetView() {
-    map.setView(australia, 4);
+function resetView(result) {
+
+    var loc = (result.startCoord == null) ? australia : {lat: result.startCoord.latitude, lon: result.startCoord.longitude};
+    var zoom = (result.startZoom == null) ? 4 : result.startZoom;
+
+    map.setView(loc, zoom);
 }
 
 $(document).keyup(function (e) {
