@@ -30,6 +30,10 @@ function submitGuess() {
             console.log(puzzle.trail[trailIndex]);
             var stage = puzzle.trail[trailIndex];
             var success = evaluateGuess(guess, stage.site.coord);
+
+            var site = (success) ? stage.site : guess;
+            placeMarker(site, success);
+
             if (success) processSuccessfulGuess();
             else animateGuess(false);
             //client.submitGuess(playerId, puzzleId, guess, targetId, processGuessResult);
@@ -50,7 +54,5 @@ function buildGuess() {
 }
 
 function evaluateGuess(guess, target) {
-    console.log(guess);
-    console.log(target);
-    return distance(guess.coord, target) < 100;
+    return distance(guess.coord, target) < 10;
 }

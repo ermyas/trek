@@ -5,6 +5,7 @@ var map = L.mapbox.map('map', 'pkge.n40j2pkk', {doubleClickZoom: false}).setView
     // Zoom exactly to each double-clicked point
     map.setView(e.latlng, map.getZoom() + 1);
 });
+L.AwesomeMarkers.Icon.prototype.options.prefix = 'fa';
 
 function resetView() {
     map.setView(australia, 4);
@@ -48,4 +49,21 @@ function pan(dx, dy) {
     dx = typeof dx !== 'undefined' ? dx : 1;
     dy = typeof dy !== 'undefined' ? dy : 1;
     map.panBy([dx * 80, dy * 80]);
+}
+
+
+var failureMarker = L.AwesomeMarkers.icon({
+    icon: 'map-signs',
+    markerColor: 'lightred'
+});
+
+var successMarker = L.AwesomeMarkers.icon({
+    icon: 'camera',
+    markerColor: 'cadetblue'
+});
+
+function placeMarker(site, success) {
+    var mkr = (success) ? successMarker : failureMarker;
+    var coords = [site.coord.latitude, site.coord.longitude];
+    L.marker(coords, {icon: mkr}).addTo(map);
 }
