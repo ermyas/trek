@@ -29,9 +29,9 @@ class JourneyDaoSpec extends Specification with SpecUtils with Mockito with ForE
 
     "Retrieve player visits" in { dao: JourneyDao =>
       val createdVisits = visitSites(dao, phileas)
-      val playerVists = awaitRight(dao.get(playerId = phileas, puzzleId = wondersOfTheWorld))
-      playerVists.length === createdVisits.length
-      playerVists must containTheSameElementsAs(createdVisits)
+      val playerVisits = awaitRight(dao.get(playerId = phileas, puzzleId = wondersOfTheWorld))
+      playerVisits.length === createdVisits.length
+      playerVisits must containTheSameElementsAs(createdVisits)
     }
 
     "Retrieve the last PlayerSite instance" in { dao: JourneyDao =>
