@@ -67,8 +67,8 @@ var successMarker = L.AwesomeMarkers.icon({
     labelAnchor: [15, -24]
 });
 
-function placeMarker(site, success) {
+function placeMarker(site, success, label) {
     var coords = [site.coord.latitude, site.coord.longitude];
-    if (success) L.marker(coords, {icon: successMarker}).bindLabel('Test', { noHide: false}).addTo(map);
+    if (success) L.marker(coords, {icon: successMarker}).bindLabel(label, { noHide: false}).addTo(map);
     else L.marker(coords, {icon: failureMarker}).addTo(map);
 }

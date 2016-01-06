@@ -35,7 +35,7 @@ function submitGuess() {
             var success = evaluateGuess(guess, stage.site.coord);
 
             var site = (success) ? stage.site : guess;
-            placeMarker(site, success);
+            placeMarker(site, success, stage.name);
 
             if (success) processSuccessfulGuess();
             else animateGuess(false);
