@@ -9,7 +9,7 @@ var transport = new Thrift.Transport("http://" + host + ":" + port + "/" + servi
 var protocol = new Thrift.TJSONProtocol(transport);
 var client = new PuzzleMasterServiceClient(protocol);
 var playerId = "1d80253ea9d3bde96863a7bf270000ac"; // this player should already exist
-var puzzleId = "3a219bd30893157833cad612bc000e1a"; // as should this puzzle
+var puzzleId = "f227c4b7a2c3f832cb82855b070005f7"; // as should this puzzle
 var puzzle = null;
 var trailIndex;
 var trailLength;
