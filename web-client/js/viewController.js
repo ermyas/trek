@@ -18,13 +18,14 @@ var processSuccessfulGuess = function () {
     animateGuess(true);
     var stage = puzzle.trail[trailIndex];
     trailIndex++;
+    var nextStage = puzzle.trail[trailIndex];
 
     if (trailIndex == trailLength) {
         var msg = stage.message + "<br/>" + puzzle.endMessage;
         showModal(msg);
         hideClueCards();
     } else if (stage != null && trailIndex < trailLength) {
-        updateView(laststage, nextstage);
+        updateView(stage, nextStage);
     }
     updateProgress();
 };
