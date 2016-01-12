@@ -1,17 +1,19 @@
 
+The tests for some subprojects require a local couchdb server to be running.
+
+    brew install couchdb
+    couchdb
 
 # Build the docker images
 
 We're using a multiproject structure, so from the root directory
 or passing the build.sbt in the root, use sbt to build all the images.
 
-    sbt "project thriftInterfaces" compile
     sbt "project puzzleService" docker
     sbt "project playerService" docker
     sbt "project journeyService" docker
     sbt "project puzzleMasterService" docker
 
-The tests for some of these require a local couchdb server to be running.
 
 # Docker-machine
 
@@ -22,7 +24,7 @@ Also note cask is now an official part of brew ([https://github.com/caskroom/hom
     brew install docker docker-machine docker-swarm docker-compose
 
     docker-machine create -d virtualbox trek
-    docker-machine start trek
+    docker-machine start trek // this isn't always necessary
     eval $(docker-machine env trek)
 
 # Docker compose
