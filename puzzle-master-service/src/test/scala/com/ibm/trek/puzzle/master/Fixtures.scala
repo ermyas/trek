@@ -8,9 +8,13 @@ trait Fixtures {
 
   val now = System.currentTimeMillis
 
-  val firstSite = PuzzleSite(id = "melb", name = "Melbourne", message = "here be dragons", clue = "fight fire with fire", site = Site(Coordinate(0.0, 1.1)))
-  val secondSite = PuzzleSite(id = "syd", name = "Sydney", message = "here be knights", clue = "the pen it mighty", site = Site(Coordinate(5.0, 3.1)))
-  val lastSite = PuzzleSite(id = "adelaide", name = "Adelaide", message = "go where sinks", clue = "no more drink", site = Site(Coordinate(2.0, 3.1)))
+  val firstSite = PuzzleSite(id = "melb", name = "Melbourne", message = Some("here be dragons"), clue = "fight fire " +
+                                                                                                      "with fire", site = Site(Coordinate(0.0, 1.1)))
+  val secondSite = PuzzleSite(id = "syd", name = "Sydney", message = Some("here be knights"), clue = "the pen it " +
+                                                                                                    "mighty", site = Site(Coordinate(5.0, 3.1)))
+  val lastSite = PuzzleSite(id = "adelaide", name = "Adelaide", message = Some("go where sinks"), clue = "no more " +
+                                                                                                        "drink",
+                            site = Site(Coordinate(2.0, 3.1)))
   val puzzleId = "cap'n crunch"
   val playerId = "johan-id"
   val puzzle = Puzzle(Some(puzzleId), Seq(firstSite, secondSite, lastSite), "Hey there goose", "nice one!", "joey")

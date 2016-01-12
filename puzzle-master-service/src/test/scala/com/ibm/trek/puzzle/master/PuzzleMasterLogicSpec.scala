@@ -27,7 +27,7 @@ class PuzzleMasterLogicSpec extends PropSpec with PropertyChecks with ShouldMatc
     message <- Gen.alphaStr
     clue <- Gen.alphaStr
     site <- mySiteGen
-  } yield PuzzleSite(id, name, message, clue, site)
+  } yield PuzzleSite(id, name, Some(message), clue, site)
 
   val myPuzzleGen = for {
     id <- Gen.alphaStr
