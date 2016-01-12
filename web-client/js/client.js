@@ -1,15 +1,19 @@
 // Important stuff: the endpoint is: "http://hostip:hostport/thriftservicename"
 // where the thrift service name is defined in your .thrift
-//var host = "trekpuzzlemaster.mybluemix.net";
-var host = "192.168.99.100";
-//var port = "80";
-var port = "8886";
-var service = "PuzzleMasterService";
-var transport = new Thrift.Transport("http://" + host + ":" + port + "/" + service);
+var settings= {
+    "host": "192.168.99.100",
+    "port": "8886",
+    "service" : "PuzzleMasterService"
+};
+
+var playerId = "291aca633eea6175064ad18acf000669";
+var puzzleId = "a11d5988fcc359c7cd8095a492000c68";
+
+var transport = new Thrift.Transport("http://" + settings.host + ":" + settings.port + "/" + settings.service);
 var protocol = new Thrift.TJSONProtocol(transport);
 var client = new PuzzleMasterServiceClient(protocol);
-var playerId = "1d80253ea9d3bde96863a7bf270000ac"; // this player should already exist
-var puzzleId = "f227c4b7a2c3f832cb82855b070005f7"; // as should this puzzle
+
+//  Global vars
 var puzzle = null;
 var trailIndex;
 var trailLength;
