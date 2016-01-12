@@ -43,7 +43,7 @@ object PuzzleMasterClient {
                         site = Site(coord = Coordinate(latitude = 32.543510, longitude = 44.423962)))
 
     val ta = PuzzleSite(id = "temple-artemis", name = "Temple of Artemis", clue = "Temple of Artemis",
-                        message = Some("Templte of Artemis"),
+                        message = Some("Temple of Artemis"),
                         site = Site(coord = Coordinate(latitude = 37.951139, longitude = 27.365371)))
     val dummyPuzzle = Puzzle(trail = Seq(gPy, hg, ta),
                              startMessage = "Around the World in 80 Days is the name of the game!! Lets Play!",
