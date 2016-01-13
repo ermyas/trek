@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Trek</title>
+        <!-- Google styles -->        
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'/>
+        <link href='http://fonts.googleapis.com/css?family=Vollkorn|Open+Sans:400,700' rel='stylesheet' type='text/css'/> 
+        
+        <!--Import materialize.css-->
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,900,500' rel='stylesheet' type='text/css'>        
+        <link type="text/css" media="screen,projection" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css"/>
+        <link type="text/css" rel="stylesheet" href="styles.css"/>  
+        
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+    </head>
+    <!-- Start of Body -->
+    <body class="green-mint">
+        <!-- Landing Section -->        
+        <section id="sec-1" class="no-padding">
+            <div class="container center">
+                <div class="pushdown-10p"></div>
+                <div class="container">
+                    <div class="col s6 center white-text">
+                        <h5 class="white-text roboto-300 no-margin">
+                          Welcome to Trek
+                        </h5>
+                        <p class="no-margin">A map-based treasure hunt for all ages</p>
+                    </div>
+                </div>
+                <div class="pushdown-10p"></div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="btn-flat green-mint white-text waves-effect waves-green disabled" 
+                                 style="width: 30%; height: 50px; line-height: 50px;">
+                                <a class="disabled" style="color: white;">PLAY NOW</a>                                
+                            </div> 
+                        </div>
+                    </div>
+
+                <div class="pushdown-10p"></div>
+            </div>
+            <!-- Mountain Like overlay (above the particlejs background) -->
+            <img alt="" class="overlay-ground" src="ground-green.png">
+        </section>
+        <!-- Start of Below the Fold -->
+        <section id="sec-2" class="green-mint white-text">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        
+<div id="target">Loading...</div>
+<script id="template" type="x-tmpl-mustache">{{ #puzzles }}
+
+<a href="#?pid={{id}}" class="grey-text text-darken-2 collection-item">{{ name }}</a>
+--
+{{/puzzles}}</script>
+									<div class="collection">
+													<a href="#!" class="grey-text text-darken-2 collection-item">Australian Icons</a>
+													<a href="#!" class="grey-text text-darken-2 collection-item">Around the world in 30 days</a>
+													<a href="#!" class="grey-text text-darken-2 collection-item">Napoleonic Wars</a>
+													<a href="#!" class="grey-text text-darken-2 collection-item">Islands and coastal landmarks</a>
+												</div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="pushdown-10p"></div>
+                <div class="row">
+                    <div class="center">
+                        <h4 class="roboto-300"> 
+                          How does it work?
+                        </h4>
+                        <p style="font-size: 1.5em" class="roboto-300">                            
+                          Each puzzle contains a series of questions, the answer to each could be anywhere on earth.
+                        </p>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="card black-wine">
+                            <div class="card-content white-text">
+                                <h5> 1. Choose a puzzle </h5>
+                            </div>
+                            <div class="card-content white black-text"
+                                 style="min-height: 140px;">
+                              Puzzles vary in difficulty, harder puzzles require you to be more accurate in your guesses.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card black-wine">
+                            <div class="card-content white-text">
+                                <h5> 2. Pan and zoom</h5>
+                            </div>
+                            <div class="card-content white black-text"
+                                 style="min-height: 140px;">
+                              Center the map on the location that you think the question is referring to.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card black-wine">
+                            <div class="card-content white-text">
+                                <h5>3. Submit guess</h5>
+                            </div>
+                            <div class="card-content white black-text"
+                                 style="min-height: 140px;">
+                              If you're guess is right, you'll move be given another clue.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pushdown-10p"></div>
+            </div>                        
+        </section>
+        <section id="sec-3" class="green-mint white-text">
+            <footer class="page-footer green-wine trek-foot">
+                <div class="footer-copyright">
+                    <div class="container center">
+                        Thanks for playing Trek, want to contribute? Find us on <a class="white-text text-darken-4 center" href="https://github.com/ermyas/trek">GitHub</a>
+                    </div>
+                  </div>
+            </footer>
+        </section>
+                  
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+        <script src="../js/mustache.min.js"></script>
+        <script src="../js/splash.js"></script>
+        
+    </body>
+</html>
