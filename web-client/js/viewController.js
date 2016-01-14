@@ -13,7 +13,7 @@ var puzzleInitializer = function (result) {
     updateClueCard(stage.clue);
     showProgressBar();
     updateProgress();
-    resetView(result);
+    //resetView(result);
     $("#continue").focus();
 };
 
