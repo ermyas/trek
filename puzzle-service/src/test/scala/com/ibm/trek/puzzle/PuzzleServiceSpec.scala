@@ -1,6 +1,6 @@
 package com.ibm.trek.puzzle
 
-import com.ibm.trek.puzzle.spec.{SpecUtils, Fixtures}
+import com.ibm.trek.puzzle.spec.{Fixtures, SpecUtils}
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 import org.specs2.specification.AllExpectations
@@ -19,6 +19,7 @@ Mockito {
     dao.update(fixDDayPuzzleSaved.id.get, fixDDayPuzzleSaved) returns Task.now(fixDDayPuzzleSaved)
     dao.get(fixDDayPuzzleSaved.id.get) returns Task.now(fixDDayPuzzleSaved)
     dao.delete(fixDDayPuzzleSaved.id.get) returns Task.now(Unit)
+    dao.getAll(limit = 3, skip = 2) returns Task.now(Seq(fixAusJourneyPuzzle))
     dao
   }
 
@@ -34,6 +35,11 @@ Mockito {
       service.get(id)
       there was one(mockCouchDao).get(id)
     }
+    "Get all puzzles" in { implicit ee: org.specs2.concurrent.ExecutionEnv =>
+      service.getAll(limit = 3, skip = 2)
+      there was one(mockCouchDao).getAll(limit = 3, skip = 2)
+    }
+
     "Get a puzzle should fail when invalid id provided" in {
       awaitArgFailure(service.get(""))
     }

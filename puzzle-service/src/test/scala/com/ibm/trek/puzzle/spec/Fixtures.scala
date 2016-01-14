@@ -24,6 +24,11 @@ trait Fixtures extends Specification with Mockito {
                                    endMessage = "Great job",
                                    owner = "Mick Dundee")
 
+  val fixNZJourneyPuzzle = Puzzle(trail = Seq[PuzzleSite](),
+                                  startMessage = "Alright mate, time to explore the other land down under!",
+                                  endMessage = "Great job",
+                                  owner = "Mick Dundee")
+
   val fixDDayPuzzleSaved = Puzzle(
     id = Some("puzzle-dday"),
     trail = Seq[PuzzleSite](fixSiteUtahBeach),

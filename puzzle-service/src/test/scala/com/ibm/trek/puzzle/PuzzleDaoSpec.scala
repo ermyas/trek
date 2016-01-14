@@ -34,17 +34,31 @@ class PuzzleDaoSpec extends Specification with SpecUtils with ForEach[PuzzleDao]
 
   "PuzzleDao" should {
     "Get all puzzles" in { dao: PuzzleDao =>
-      val puzzle1 = awaitRight(dao.create(fixDDayPuzzle))
-      val puzzle2 = awaitRight(dao.create(fixAusJourneyPuzzle))
+      val p1 = awaitRight(dao.create(fixAusJourneyPuzzle))
+      val p2 = awaitRight(dao.create(fixNZJourneyPuzzle))
+      val p3 = awaitRight(dao.create(fixDDayPuzzle))
 
-      val saved1 = awaitRight(dao.get(puzzle1.id.get))
-      val saved2 = awaitRight(dao.get(puzzle2.id.get))
+      "within specified limit" in {
+        val all = awaitRight(dao.getAll(limit = 3))
+        all.length mustEqual 3
+        all must contain(exactly(p1, p2, p3))
+        val only1 = awaitRight(dao.getAll(limit = 1))
+        only1.length mustEqual 1
+        only1 must contain(exactly(p1))
+      }
 
-      saved1 mustEqual puzzle1
-      saved2 mustEqual puzzle2
-      val allPuzzles = awaitRight(dao.getAll())
-      allPuzzles.length mustEqual 2
-      allPuzzles must contain(puzzle1, puzzle2)
+      "after a specified skip number" in {
+        val allPuzzles = awaitRight(dao.getAll(skip = 2))
+        allPuzzles.length mustEqual 1
+        allPuzzles must contain(exactly(p3))
+      }
+
+      "within specified limit and after a specified skip number" in {
+        val allPuzzles = awaitRight(dao.getAll(limit = 1, skip = 1))
+        allPuzzles.length mustEqual 1
+        allPuzzles must contain(exactly(p2))
+      }
+      ok
     }
   }
 }
