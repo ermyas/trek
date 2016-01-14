@@ -1,6 +1,5 @@
 package com.ibm.trek.puzzle
 
-import com.ibm.trek.common.CouchDao
 import com.ibm.trek.puzzle.model.Puzzle
 import com.twitter.scrooge.ThriftService
 import com.twitter.util.Future
@@ -8,7 +7,7 @@ import org.slf4j.LoggerFactory
 
 import scala.language.implicitConversions
 
-class PuzzleServiceImpl(dao: CouchDao[Puzzle]) extends PuzzleService.FutureIface {
+class PuzzleServiceImpl(dao: PuzzleDao) extends PuzzleService.FutureIface {
   val log = LoggerFactory.getLogger(getClass.getName)
 
   override def delete(puzzleId: String): Future[Unit] = {
@@ -22,6 +21,11 @@ class PuzzleServiceImpl(dao: CouchDao[Puzzle]) extends PuzzleService.FutureIface
   override def create(puzzle: Puzzle): Future[Puzzle] = {
     log.info(s"request: create puzzle: $puzzle")
     dao.create(puzzle).toFuture
+  }
+
+  def getAll(limit: Int = 10, skip: Int = 0): Future[Seq[Puzzle]] = {
+    log.info(s"request: list all puzzles: limit=$limit, skip=$skip")
+    dao.getAll(limit, skip).toFuture
   }
 
   override def update(puzzle: Puzzle): Future[Puzzle] = {
@@ -42,7 +46,7 @@ class PuzzleServiceImpl(dao: CouchDao[Puzzle]) extends PuzzleService.FutureIface
 }
 
 object PuzzleServiceImpl {
-  def create(dao: CouchDao[Puzzle]): ThriftService = {
+  def create(dao: PuzzleDao): ThriftService = {
     new PuzzleServiceImpl(dao)
   }
 }

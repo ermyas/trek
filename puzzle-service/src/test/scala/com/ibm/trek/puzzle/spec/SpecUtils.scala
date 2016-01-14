@@ -16,15 +16,14 @@
 
 package com.ibm.trek.puzzle.spec
 
-import com.ibm.couchdb.TypeMapping
-import com.ibm.trek.common.{CouchDao, DbConfig, Fixtures}
+import com.ibm.trek.common.{CouchDao, DbConfig}
+import com.ibm.trek.puzzle.PuzzleDaoFactory
+import com.ibm.trek.puzzle.model.Puzzle
+import com.twitter.util.{Await, Awaitable}
 import org.slf4j.LoggerFactory
 import org.specs2.matcher.MatcherMacros
 import org.specs2.mutable.Specification
 import org.specs2.scalaz.DisjunctionMatchers
-import upickle.Js
-import upickle.default.Aliases._
-import upickle.default._
 
 import scalaz.concurrent.Task
 import scalaz.{-\/, \/, \/-}
@@ -32,10 +31,11 @@ import scalaz.{-\/, \/, \/-}
 trait SpecUtils extends Specification with Fixtures with DisjunctionMatchers with MatcherMacros {
 
   private val log = LoggerFactory.getLogger(getClass.getName)
+
   def await[T](future: Task[T]): Throwable \/ T = future.attemptRun
 
   def mustFail[T](t: Task[T]) = await(t).isLeft === true
-  
+
   def awaitRight[T](future: Task[T]): T = {
     val res = await(future)
     val docs = res match {
@@ -51,20 +51,9 @@ trait SpecUtils extends Specification with Fixtures with DisjunctionMatchers wit
 
   def deleteDb(config: DbConfig) = CouchDao.deleteDb(config)
 
-  implicit def FixPersonRW: RW[FixPerson] = RW[FixPerson](
-    { x =>
-      jsObj(("name", writeRequired[String](x.name)), ("id", writeOptional[String](x.id)))
-    },
-    {
-      case json: Js.Obj =>
-        val f = json.value.toMap
-        FixPerson(name = readRequired[String](f, "name"), id = readOptional[String](f, "id"))
-    })
-
-  def createDao(): CouchDao[FixPerson] = {
-    val db = awaitRight(CouchDao.getOrCreateDb(dbConfig))
-    val dbApi = CouchDao.getDbApi(db, "trek-common-test", TypeMapping(classOf[FixPerson] -> "person"))
-    val design = awaitRight(CouchDao.getOrCreateDesign(dbApi, "couchdao-test-design", Map()))
-    new CouchDao[FixPerson](dbApi, design, docExtractor = personExtractor)
+  def createDao(): CouchDao[Puzzle] = {
+    PuzzleDaoFactory(dbConfig)
   }
+
+  def awaitArgFailure[T](f: Awaitable[T]) = Await.result(f) must throwAn[IllegalArgumentException]
 }

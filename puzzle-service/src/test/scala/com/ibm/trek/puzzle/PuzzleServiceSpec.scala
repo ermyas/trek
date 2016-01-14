@@ -1,20 +1,20 @@
 package com.ibm.trek.puzzle
 
-import com.ibm.trek.common.CouchDao
-import com.ibm.trek.puzzle.model.Puzzle
+import com.ibm.trek.puzzle.spec.{SpecUtils, Fixtures}
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 import org.specs2.specification.AllExpectations
 
 import scalaz.concurrent.Task
 
-class PuzzleServiceSpec extends Specification with Fixtures with AllExpectations with Implicits with Mockito {
-  def create(dao: CouchDao[Puzzle]) = {
+class PuzzleServiceSpec extends Specification with Fixtures with SpecUtils with AllExpectations with Implicits with
+Mockito {
+  def create(dao: PuzzleDao) = {
     new PuzzleServiceImpl(dao)
   }
 
   def createMockDao() = {
-    val dao: CouchDao[Puzzle] = mock[CouchDao[Puzzle]]
+    val dao: PuzzleDao = mock[PuzzleDao]
     dao.create(fixDDayPuzzle) returns Task.now(fixDDayPuzzleSaved)
     dao.update(fixDDayPuzzleSaved.id.get, fixDDayPuzzleSaved) returns Task.now(fixDDayPuzzleSaved)
     dao.get(fixDDayPuzzleSaved.id.get) returns Task.now(fixDDayPuzzleSaved)

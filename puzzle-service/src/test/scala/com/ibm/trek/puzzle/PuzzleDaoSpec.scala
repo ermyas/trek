@@ -16,71 +16,35 @@
 
 package com.ibm.trek.puzzle
 
-import com.ibm.trek.common.spec.{FixPerson, SpecUtils}
+import com.ibm.trek.common.CouchDao
+import com.ibm.trek.puzzle.spec.SpecUtils
 import org.specs2.execute.{AsResult, Result}
 import org.specs2.mutable.Specification
 import org.specs2.specification.ForEach
 
-class PuzzleDaoSpec extends Specification with SpecUtils with ForEach[CouchDao[FixPerson]] {
+class PuzzleDaoSpec extends Specification with SpecUtils with ForEach[PuzzleDao] {
 
   sequential
 
-  val nonexistent = "non-existent-doc"
-
-  override def foreach[R: AsResult](f: CouchDao[FixPerson] => R): Result = {
-    awaitRight(CouchDao.deleteDb(dbConfig))
-    val dao = createDao()
+  override def foreach[R: AsResult](f: PuzzleDao => R): Result = {
+    await(CouchDao.deleteDb(dbConfig))
+    val dao = PuzzleDaoFactory(dbConfig).asInstanceOf[PuzzleDao]
     AsResult(f(dao))
   }
 
-  "CouchDao" should {
-    "Create a document" in { dao: CouchDao[FixPerson] =>
-      val fixAliceSaved: FixPerson = awaitRight(dao.create(fixAlice))
-      val fixBobSaved: FixPerson = awaitRight(dao.create(fixJill))
-      fixAliceSaved.name === fixAlice.name
-      fixAliceSaved.id must beSome
-      fixBobSaved.name === fixBobSaved.name
-      fixBobSaved.id must beSome
-    }
+  "PuzzleDao" should {
+    "Get all puzzles" in { dao: PuzzleDao =>
+      val puzzle1 = awaitRight(dao.create(fixDDayPuzzle))
+      val puzzle2 = awaitRight(dao.create(fixAusJourneyPuzzle))
 
-    "Get a document that exists" in { dao: CouchDao[FixPerson] =>
-      val created = awaitRight(dao.create(fixAlice))
-      val fixAliceSaved: FixPerson = awaitRight(dao.get(created.id.get))
-      fixAliceSaved.name === fixAlice.name
-      fixAlice.name === created.name
-      fixAliceSaved must beEqualTo(created)
-    }
+      val saved1 = awaitRight(dao.get(puzzle1.id.get))
+      val saved2 = awaitRight(dao.get(puzzle2.id.get))
 
-    "Fail to get a document that does not exist" in { dao: CouchDao[FixPerson] =>
-      val aliceReq = dao.get(nonexistent)
-      mustFail(aliceReq)
-    }
-
-    "Delete a document that exists" in { dao: CouchDao[FixPerson] =>
-      val created = awaitRight(dao.create(fixAlice))
-      awaitRight(dao.delete(created.id.get))
-      val deletedObj = dao.get(created.id.get)
-      mustFail(deletedObj)
-    }
-
-    "Fail to delete a document that does not exist" in { dao: CouchDao[FixPerson] =>
-      val deletedDoc = dao.delete(nonexistent)
-      mustFail(deletedDoc)
-    }
-
-    "Update a document" in { dao: CouchDao[FixPerson] =>
-      val created = awaitRight(dao.create(fixAlice))
-      val updated = awaitRight(dao.update(id = created.id.get, created.copy(name = fixJill.name)))
-
-      updated.name === fixJill.name
-      updated.id must beSome
-      awaitRight(dao.get(updated.id.get)) === updated
-    }
-
-    "Fail to update a document that does not exist" in { dao: CouchDao[FixPerson] =>
-      val created = awaitRight(dao.create(fixAlice))
-      val updated = dao.update(id = nonexistent, created.copy(name = fixJill.name))
-      mustFail(updated)
+      saved1 mustEqual puzzle1
+      saved2 mustEqual puzzle2
+      val allPuzzles = awaitRight(dao.getAll())
+      allPuzzles.length mustEqual 2
+      allPuzzles must contain(puzzle1, puzzle2)
     }
   }
 }

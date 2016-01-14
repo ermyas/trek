@@ -1,5 +1,6 @@
 package com.ibm.trek.puzzle.spec
 
+import com.ibm.trek.common.DbConfig
 import com.ibm.trek.model.{Coordinate, Site}
 import com.ibm.trek.puzzle.model.{Puzzle, PuzzleSite}
 import org.specs2.mock.Mockito
@@ -18,6 +19,11 @@ trait Fixtures extends Specification with Mockito {
     endMessage = "Great job completing the D-Day landing puzzle.",
     owner = "Eisenhower")
 
+  val fixAusJourneyPuzzle = Puzzle(trail = Seq[PuzzleSite](),
+                                   startMessage = "Alright mate, time to explore the land down under!",
+                                   endMessage = "Great job",
+                                   owner = "Mick Dundee")
+
   val fixDDayPuzzleSaved = Puzzle(
     id = Some("puzzle-dday"),
     trail = Seq[PuzzleSite](fixSiteUtahBeach),
@@ -25,8 +31,11 @@ trait Fixtures extends Specification with Mockito {
     endMessage = "Great job completing the D-Day landing puzzle.",
     owner = "Eisenhower")
 
-  def awaitArgFailure[T](f: Awaitable[T]) = Await.result(f) must throwAn[IllegalArgumentException]
+  val couchDbHost     = System.getProperty("couchDbHost", "127.0.0.1")
+  val couchDbPort     = System.getProperty("couchDbPort", "5984").toInt
+  val couchDbUsername = System.getProperty("couchDbUsername", null)
+  val couchDbPassword = System.getProperty("couchDbPassword", null)
 
-  val dbConfig = DbConfig(host = couchDbHost, port = couchDbPort, name = "trek-common-test", username =
+  val dbConfig = DbConfig(host = couchDbHost, port = couchDbPort, name = "trek-puzzle-test", username =
     Option(couchDbUsername), password = Option(couchDbPassword), https = false)
 }

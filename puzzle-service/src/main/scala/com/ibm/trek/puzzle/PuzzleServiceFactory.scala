@@ -8,7 +8,7 @@ import org.apache.thrift.protocol.TBinaryProtocol.Factory
 object PuzzleServiceFactory extends ServiceFactory[Puzzle] {
   override def apply(dao: CouchDao[Puzzle]): CouchService = {
     dao match {
-      case puzzleDao: CouchDao[Puzzle] =>
+      case puzzleDao: PuzzleDao =>
         val service = new PuzzleServiceImpl(dao = puzzleDao)
         new FinagledService(service, new Factory())
     }
