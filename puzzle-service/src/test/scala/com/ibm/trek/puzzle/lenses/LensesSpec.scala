@@ -1,6 +1,7 @@
 package com.ibm.trek.puzzle.lenses
 
-import com.ibm.trek.puzzle.{Fixtures, Implicits}
+import com.ibm.trek.puzzle.Implicits
+import com.ibm.trek.puzzle.spec.Fixtures
 import monocle.syntax._
 import org.specs2.mutable.Specification
 import org.specs2.specification.AllExpectations
