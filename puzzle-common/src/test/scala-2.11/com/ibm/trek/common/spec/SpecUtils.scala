@@ -18,40 +18,53 @@ package com.ibm.trek.common.spec
 
 import com.ibm.couchdb.TypeMapping
 import com.ibm.trek.common.{CouchDao, DbConfig, Fixtures}
+import org.slf4j.LoggerFactory
 import org.specs2.matcher.MatcherMacros
 import org.specs2.mutable.Specification
 import org.specs2.scalaz.DisjunctionMatchers
 import upickle.Js
 import upickle.default.Aliases._
 import upickle.default._
-import scalaz.\/
+
 import scalaz.concurrent.Task
+import scalaz.{-\/, \/, \/-}
 
 trait SpecUtils extends Specification with Fixtures with DisjunctionMatchers with MatcherMacros {
 
+  private val log = LoggerFactory.getLogger(getClass.getName)
   def await[T](future: Task[T]): Throwable \/ T = future.attemptRun
 
   def mustFail[T](t: Task[T]) = await(t).isLeft === true
   
   def awaitRight[T](future: Task[T]): T = {
     val res = await(future)
+    val docs = res match {
+      case -\/(err) =>
+        log.error(err.getMessage, err)
+        None
+      case \/-(d) =>
+        Some(d)
+    }
     res must beRightDisjunction
-    res.toOption.get
+    docs.get
   }
 
   def deleteDb(config: DbConfig) = CouchDao.deleteDb(config)
 
   implicit def FixPersonRW: RW[FixPerson] = RW[FixPerson](
-    {x => jsObj(("name", writeRequired[String](x.name)),("id", writeOptional[String](x.id)))},
+    { x =>
+      jsObj(("name", writeRequired[String](x.name)), ("id", writeOptional[String](x.id)))
+    },
     {
-    case json: Js.Obj => val f = json.value.toMap
-    FixPerson(name = readRequired[String](f, "name"),id = readOptional[String](f, "id"))
+      case json: Js.Obj =>
+        val f = json.value.toMap
+        FixPerson(name = readRequired[String](f, "name"), id = readOptional[String](f, "id"))
     })
 
   def createDao(): CouchDao[FixPerson] = {
-    val db = CouchDao.getOrCreateDb(dbConfig).run
+    val db = awaitRight(CouchDao.getOrCreateDb(dbConfig))
     val dbApi = CouchDao.getDbApi(db, "trek-common-test", TypeMapping(classOf[FixPerson] -> "person"))
-    val design = CouchDao.getOrCreateDesign(dbApi, "couchdao-test-design", Map()).run
+    val design = awaitRight(CouchDao.getOrCreateDesign(dbApi, "couchdao-test-design", Map()))
     new CouchDao[FixPerson](dbApi, design, docExtractor = personExtractor)
   }
 }

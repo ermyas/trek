@@ -27,17 +27,16 @@ class CouchDaoSpec extends Specification with SpecUtils with ForEach[CouchDao[Fi
 
   val nonexistent = "non-existent-doc"
 
-
   override def foreach[R: AsResult](f: CouchDao[FixPerson] => R): Result = {
-    CouchDao.deleteDb(dbConfig)
+    awaitRight(CouchDao.deleteDb(dbConfig))
     val dao = createDao()
     AsResult(f(dao))
   }
 
   "CouchDao" should {
     "Create a document" in { dao: CouchDao[FixPerson] =>
-      val fixAliceSaved: FixPerson = dao.create(fixAlice).run
-      val fixBobSaved: FixPerson = dao.create(fixJill).run
+      val fixAliceSaved: FixPerson = awaitRight(dao.create(fixAlice))
+      val fixBobSaved: FixPerson = awaitRight(dao.create(fixJill))
       fixAliceSaved.name === fixAlice.name
       fixAliceSaved.id must beSome
       fixBobSaved.name === fixBobSaved.name
@@ -45,21 +44,21 @@ class CouchDaoSpec extends Specification with SpecUtils with ForEach[CouchDao[Fi
     }
 
     "Get a document that exists" in { dao: CouchDao[FixPerson] =>
-      val created = dao.create(fixAlice).run
-      val fixAliceSaved: FixPerson = dao.get(created.id.get).run
+      val created = awaitRight(dao.create(fixAlice))
+      val fixAliceSaved: FixPerson = awaitRight(dao.get(created.id.get))
       fixAliceSaved.name === fixAlice.name
       fixAlice.name === created.name
       fixAliceSaved must beEqualTo(created)
     }
 
-    "Fail to Get a document that does not exist" in { dao: CouchDao[FixPerson] =>
+    "Fail to get a document that does not exist" in { dao: CouchDao[FixPerson] =>
       val aliceReq = dao.get(nonexistent)
       mustFail(aliceReq)
     }
 
     "Delete a document that exists" in { dao: CouchDao[FixPerson] =>
-      val created = dao.create(fixAlice).run
-      dao.delete(created.id.get).run
+      val created = awaitRight(dao.create(fixAlice))
+      awaitRight(dao.delete(created.id.get))
       val deletedObj = dao.get(created.id.get)
       mustFail(deletedObj)
     }
@@ -70,18 +69,17 @@ class CouchDaoSpec extends Specification with SpecUtils with ForEach[CouchDao[Fi
     }
 
     "Update a document" in { dao: CouchDao[FixPerson] =>
-      val created = dao.create(fixAlice).run
-      val updated = dao.update(id = created.id.get, created.copy(name = fixJill.name)).run
+      val created = awaitRight(dao.create(fixAlice))
+      val updated = awaitRight(dao.update(id = created.id.get, created.copy(name = fixJill.name)))
 
       updated.name === fixJill.name
       updated.id must beSome
-      dao.get(updated.id.get).run === updated
+      awaitRight(dao.get(updated.id.get)) === updated
     }
 
     "Fail to update a document that does not exist" in { dao: CouchDao[FixPerson] =>
-      val created = dao.create(fixAlice).run
+      val created = awaitRight(dao.create(fixAlice))
       val updated = dao.update(id = nonexistent, created.copy(name = fixJill.name))
-
       mustFail(updated)
     }
   }
