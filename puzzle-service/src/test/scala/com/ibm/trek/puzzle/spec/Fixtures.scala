@@ -1,8 +1,7 @@
-package com.ibm.trek.puzzle
+package com.ibm.trek.puzzle.spec
 
 import com.ibm.trek.model.{Coordinate, Site}
 import com.ibm.trek.puzzle.model.{Puzzle, PuzzleSite}
-import com.twitter.util.{Await, Awaitable}
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
@@ -27,4 +26,7 @@ trait Fixtures extends Specification with Mockito {
     owner = "Eisenhower")
 
   def awaitArgFailure[T](f: Awaitable[T]) = Await.result(f) must throwAn[IllegalArgumentException]
+
+  val dbConfig = DbConfig(host = couchDbHost, port = couchDbPort, name = "trek-common-test", username =
+    Option(couchDbUsername), password = Option(couchDbPassword), https = false)
 }

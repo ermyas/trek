@@ -12,8 +12,8 @@ object JourneyViews {
          |function(doc) {
          |var d = doc.doc
          |if(doc.kind == "$playerSiteMapping")
-                                                |emit([d.player, d.puzzle], d.player);
-                                                |}
+         |emit([d.player, d.puzzle], d.player);
+         |}
       """.stripMargin)
   )
 }
