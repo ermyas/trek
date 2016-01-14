@@ -38,7 +38,7 @@ trait Implicits extends uPickleTypes {
       ("id", writeRequired(x.id)),
       ("name", writeRequired(x.name)),
       ("clue", writeRequired(x.clue)),
-      ("message", writeRequired(x.message)),
+      ("message", writeOptional(x.message)),
       ("site", writeRequired(x.site))
     )
   }, {
