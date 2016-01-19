@@ -132,3 +132,94 @@ input {
 
 }
 
+body {
+    background: white;
+    height: 100%;
+    width: 100%;
+}
+
+section {
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px 0px 0px 0px !important;
+}
+
+p {
+    font-size: 1.15em;
+    color: inherit;
+}
+
+.center {
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.roboto-300 {
+    font-family: 'Roboto';
+    font-weight: 300;
+}
+
+.pushdown-10p {
+    padding-top: 10%;
+}
+
+#sec-1 {
+    padding-top: 15%;
+    padding-bottom: 15%;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    background-color: black;
+}
+
+#sec-1a {
+    padding-top: 15%;
+    padding-bottom: 15%;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    background-color: black;
+}
+
+#sec-2, #sec-3, #sec-4 {
+    padding-top: 15%;
+    padding-bottom: 15%;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    bottom: 7px;
+}
+
+#sec-4 {
+    bottom: 0;
+}
+
+#sec-3 {
+    /*background: rgba(9, 15, 14, 0.95);*/
+    background-image: -o-linear-gradient(180deg, rgba(9, 15, 14, 0) 0%, rgba(9, 15, 14, 0.95) 45%, rgba(9, 15, 14, 0) 90%);
+    background-image: -moz-linear-gradient(180deg, rgba(9, 15, 14, 0) 0%, rgba(9, 15, 14, 0.95) 45%, rgba(9, 15, 14, 0) 90%);
+    background-image: -webkit-linear-gradient(180deg, rgba(9, 15, 14, 0) 0%, rgba(9, 15, 14, 0.95) 45%, rgba(9, 15, 14, 0) 90%);
+    background-image: -ms-linear-gradient(180deg, rgba(9, 15, 14, 0) 0%, rgba(9, 15, 14, 0.95) 45%, rgba(9, 15, 14, 0) 90%);
+    background-image: linear-gradient(180deg, rgba(9, 15, 14, 0) 0%, rgba(9, 15, 14, 0.95) 45%, rgba(9, 15, 14, 0) 90%);
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.trek-foot {
+    padding: 0px !important;
+    margin: 0px !important;
+    background: #01579b !important;
+}
+
+.black-wine {
+    color: white;
+    background-color: #000 !important;
+}
+
+.green-mint {
+    background: #01579b !important;
+}
+
