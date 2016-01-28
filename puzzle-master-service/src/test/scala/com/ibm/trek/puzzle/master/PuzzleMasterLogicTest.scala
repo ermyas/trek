@@ -16,6 +16,7 @@ class PuzzleMasterLogicTest extends FlatSpec with ShouldMatchers with OneInstanc
   // configure stubs
   timestampStub.apply _ when() returns now
   puzzleServiceStub.get _ when puzzleId returns Future(puzzle)
+  puzzleServiceStub.getAll _ when(*, *) returns Future(puzzleList)
   playerServiceStub.visit _ when * returns Future(journey)
 
   val service = new PuzzleMasterServiceImpl(playerServiceStub, puzzleServiceStub, timestampStub)
@@ -53,6 +54,11 @@ class PuzzleMasterLogicTest extends FlatSpec with ShouldMatchers with OneInstanc
   "startPuzzle" should "return a whole puzzle" in {
     val puzzle = Await.result(service startPuzzle(playerId, puzzleId))
     puzzle._2.head.clue shouldEqual firstSite.clue
+  }
+
+  "getPuzzleList" should "return a list of puzzles" in {
+    val puzzleList = Await.result(service getPuzzleList(None, None))
+    puzzleList.length should be > 0
   }
 
 

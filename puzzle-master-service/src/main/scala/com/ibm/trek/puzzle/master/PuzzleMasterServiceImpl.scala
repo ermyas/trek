@@ -13,7 +13,7 @@ class PuzzleMasterServiceImpl(
                                playerClient: PlayerService.FutureIface,
                                puzzleClient: PuzzleService.FutureIface,
                                timestampGenerator: TimeStampGenerator
-                               ) extends PuzzleMasterService.FutureIface {
+                             ) extends PuzzleMasterService.FutureIface {
 
   def lastSite(sites: List[PuzzleSite]): Boolean = sites.length == 1
 
@@ -78,7 +78,7 @@ class PuzzleMasterServiceImpl(
           nextSiteId = Some(next.id),
           nextSiteClue = Some(next.clue)
         )
-        case Nil =>response.copy(
+        case Nil => response.copy(
           nextSiteId = None,
           nextSiteClue = None
         )
@@ -118,5 +118,19 @@ class PuzzleMasterServiceImpl(
 
   def correctGuess(guess: Site, target: Site, delta: Double): Boolean = {
     Spatial.distance(guess.coord, target.coord) < delta
+  }
+
+  override def getPuzzleList(limit: Option[Int], skip: Option[Int]): Future[Seq[Puzzle]] = {
+
+    println("Retrieving puzzle list from puzzle store")
+
+    val puzzleList = (limit, skip) match {
+      case (Some(n), Some(k)) => Await.result(puzzleClient.getAll(n, k))
+      case (Some(n), None) => Await.result(puzzleClient.getAll(n, 0))
+      case _ => Await.result(puzzleClient.getAll(10, 0))
+    }
+    println(puzzleList)
+
+    Future.value(puzzleList)
   }
 }
