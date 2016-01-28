@@ -9,7 +9,7 @@
 #couchdb
 #docker-machine create -d virtualbox trek
 #docker-machine start trek
-#eval $(docker-machine env trek)
+eval $(docker-machine env trek)
 
 # Build the docker images
 sbt "project puzzleService" docker
