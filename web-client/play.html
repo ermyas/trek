@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Trek &mdash; A Traveller's Game</title>
+
+    <script src="js/thrift.js" type="text/javascript"></script>
+    <script src="js/gen-js/Exceptions_types.js" type="text/javascript"></script>
+    <script src="js/gen-js/Model_types.js" type="text/javascript"></script>
+    <script src="js/gen-js/PuzzleModel_types.js" type="text/javascript"></script>
+    <script src="js/gen-js/PuzzleMasterModel_types.js" type="text/javascript"></script>
+    <script src="js/gen-js/PuzzleMasterService_types.js" type="text/javascript"></script>
+    <script src="js/gen-js/PuzzleMasterService.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg.js" type="text/javascript"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.js'></script>
+
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="dist/leaflet.awesome-markers.css">
+
+</head>
+<body>
+
+<div id="top-layer">
+    <div class="row hide" id="clues">
+        <div class="col m4 l3 clickable">
+            <div class="card">
+                <div id="clue" class="card-content"></div>
+                <div class="card-action">
+                    <a class="teal-text" href="javascript:submitGuess();">Submit guess</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="message" class="modal">
+    <div id="puzzleMessage" class="modal-content"></div>
+    <div class="modal-footer">
+        <a href="#!" id="continue" class="modal-action modal-close btn-flat">Continue</a>
+    </div>
+</div>
+
+<div id='map'></div>
+
+<div id='mask'>
+    <svg id='eye' viewBox="0 0 4 4" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+</div>
+
+<div id='progress' class='lower-left hide'>
+    <div id="percent"></div>
+    <svg id="progress-arc"></svg>
+</div>
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+<script src="dist/leaflet.awesome-markers.js"></script>
+<script src="js/viewController.js" type="text/javascript"></script>
+<script src="js/client.js" type="text/javascript"></script>
+<script src="js/eye.js" type="text/javascript"></script>
+<script src="js/map.js" type="text/javascript"></script>
+<script src="js/spatial.js" type="text/javascript"></script>
+<script src="js/progressIndicator.js" type="text/javascript"></script>
+<script src="js/client.js" type="text/javascript"></script>
+
+</body>
+</html>

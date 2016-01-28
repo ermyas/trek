@@ -1,79 +1,132 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Trek &mdash; A Traveller's Game</title>
-
-    <script src="js/thrift.js" type="text/javascript"></script>
-    <script src="js/gen-js/Exceptions_types.js" type="text/javascript"></script>
-    <script src="js/gen-js/Model_types.js" type="text/javascript"></script>
-    <script src="js/gen-js/PuzzleModel_types.js" type="text/javascript"></script>
-    <script src="js/gen-js/PuzzleMasterModel_types.js" type="text/javascript"></script>
-    <script src="js/gen-js/PuzzleMasterService_types.js" type="text/javascript"></script>
-    <script src="js/gen-js/PuzzleMasterService.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg.js" type="text/javascript"></script>
-    <script src='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
-    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.js'></script>
-
-    <link href='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet'/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>Trek</title>
+    <!-- Google styles -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.css' rel='stylesheet' />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="dist/leaflet.awesome-markers.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'/>
+    <link href='http://fonts.googleapis.com/css?family=Vollkorn|Open+Sans:400,700' rel='stylesheet' type='text/css'/>
 
+    <!--Import materialize.css-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,900,500' rel='stylesheet'
+          type='text/css'>
+    <link type="text/css" media="screen,projection" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="example/styles.css"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
 </head>
-<body>
-
-<div id="top-layer">
-    <div class="row hide" id="clues">
-        <div class="col m4 l3 clickable">
-            <div class="card">
-                <div id="clue" class="card-content"></div>
-                <div class="card-action">
-                    <a class="teal-text" href="javascript:submitGuess();">Submit guess</a>
+<!-- Start of Body -->
+<body class="green-mint">
+<!-- Landing Section -->
+<section id="sec-1" class="no-padding">
+    <div class="container center">
+        <div class="pushdown-10p"></div>
+        <div class="container">
+            <div class="col s6 center white-text">
+                <h5 class="white-text roboto-300 no-margin">
+                    Welcome to Trek
+                </h5>
+                <p class="no-margin">A map-based treasure hunt for all ages</p>
+            </div>
+        </div>
+        <div class="pushdown-10p"></div>
+        <div class="row">
+            <div class="col s12">
+                <div class="btn-flat green-mint white-text waves-effect waves-green"
+                     style="width: 30%; height: 50px; line-height: 50px;">
+                    <a href="play.html?pid=8ca33e91f1a0283abf3fde30680006a4&z=4&lt=-34&ln=135" style="color: white;">PLAY NOW</a>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div id="reset-layer">
-    <div class="row" id="reset">
-        <div class="col offset-m11 m1 clickable right-align">
-            <a class="btn-floating btn-large red" href="javascript:startPuzzle();"><i class="material-icons">replay</i></a>
+        <div class="pushdown-10p"></div>
+    </div>
+</section>
+<section id="sec-1a" class="no-padding">
+        <svg id="horizon" viewBox="0 0 4 1" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+    </section>
+<!-- Start of Below the Fold -->
+<section id="sec-2" class="green-mint white-text">
+    <div class="container">
+        <div class="row">
+            <div class="col s4">
+                <svg id="penguin" viewBox="0 0 4 6" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+            </div>
+            <div class="col s6">
+                <div id="target" class="collection">Retrieving puzzle list ...</div>
+            </div>
         </div>
     </div>
-</div>
-
-<div id="message" class="modal">
-    <div id="puzzleMessage" class="modal-content"></div>
-    <div class="modal-footer">
-        <a href="#!" id="continue" class="modal-action modal-close btn-flat">Continue</a>
+    <div class="container">
+        <div class="pushdown-10p"></div>
+        <div class="row">
+            <div class="center">
+                <h4 class="roboto-300">
+                    How does it work?
+                </h4>
+                <p class="roboto-300">
+                    Each puzzle contains a series of questions,<br/>the answer to each could be anywhere on earth.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card black-wine">
+                    <div class="card-content white-text">
+                        <h5> 1. Choose a puzzle </h5>
+                    </div>
+                    <div class="card-content white black-text">
+                        Puzzles vary in difficulty, harder puzzles require you to be more accurate in your guesses.
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card black-wine">
+                    <div class="card-content white-text">
+                        <h5> 2. Pan and zoom</h5>
+                    </div>
+                    <div class="card-content white black-text">
+                        Center the map on the location that you think the question is referring to.
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card black-wine">
+                    <div class="card-content white-text">
+                        <h5>3. Submit guess</h5>
+                    </div>
+                    <div class="card-content white black-text">
+                        If you're guess is right, you'll move be given another clue.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pushdown-10p"></div>
     </div>
-</div>
+</section>
+<section id="sec-3" class="green-mint white-text">
+    <footer class="page-footer trek-foot">
+        <div class="footer-copyright">
+            <div class="container center">
+                Thanks for playing Trek, want to contribute? Find us on <a class="white-text text-darken-4 center"
+                                                                           href="https://github.com/ermyas/trek">GitHub</a>
+            </div>
+        </div>
+    </footer>
+</section>
 
-<div id='map'></div>
-
-<div id='mask'>
-    <svg id='eye' viewBox="0 0 4 4" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
-</div>
-
-<div id='progress' class='lower-left hide'>
-    <div id="percent"></div>
-    <svg id="progress-arc"></svg>
-</div>
-
-<script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+<!--<script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>-->
+<script src="js/jquery-2.2.0.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
-<script src="dist/leaflet.awesome-markers.js"></script>
-<script src="js/viewController.js" type="text/javascript"></script>
-<script src="js/client.js" type="text/javascript"></script>
-<script src="js/eye.js" type="text/javascript"></script>
-<script src="js/map.js" type="text/javascript"></script>
-<script src="js/spatial.js" type="text/javascript"></script>
-<script src="js/progressIndicator.js" type="text/javascript"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg.js" type="text/javascript"></script>-->
+
+<script src="js/snap.svg-min.js" type="text/javascript"></script>
+<script src="js/mustache.min.js"></script>
+<script src="js/splash.js"></script>
+<script src="js/penguin.js" type="text/javascript"></script>
+
 
 </body>
 </html>

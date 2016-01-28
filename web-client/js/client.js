@@ -18,12 +18,25 @@ var puzzle = null;
 var trailIndex;
 var trailLength;
 
-function startPuzzle() {
+function startPuzzle(puzzleId, zoom, lat, lon) {
     try {
+        setView(zoom, lat, lon);
         client.startPuzzle(playerId, puzzleId, puzzleInitializer);
     } catch (p) {
         console.log(p);
     }
+}
+
+window.onload = function () {
+    var pid = getURLParameter('pid');
+    var zoom = getURLParameter('z');
+    var lat = getURLParameter('lt');
+    var lon = getURLParameter('ln');
+    startPuzzle(pid, zoom, lat, lon);
+};
+
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
 }
 
 function submitGuess() {
