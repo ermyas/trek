@@ -8,7 +8,7 @@
 # Launch couchdb (for running tests) and start virtualbox
 #couchdb
 #docker-machine create -d virtualbox trek
-#docker-machine start trek
+docker-machine start trek
 eval $(docker-machine env trek)
 
 # Build the docker images

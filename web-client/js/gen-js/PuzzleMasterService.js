@@ -316,6 +316,148 @@ PuzzleMasterService_startPuzzle_result.prototype.write = function(output) {
   return;
 };
 
+PuzzleMasterService_getPuzzleList_args = function(args) {
+  this.limit = null;
+  this.skip = null;
+  if (args) {
+    if (args.limit !== undefined && args.limit !== null) {
+      this.limit = args.limit;
+    }
+    if (args.skip !== undefined && args.skip !== null) {
+      this.skip = args.skip;
+    }
+  }
+};
+PuzzleMasterService_getPuzzleList_args.prototype = {};
+PuzzleMasterService_getPuzzleList_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.limit = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I32) {
+        this.skip = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+PuzzleMasterService_getPuzzleList_args.prototype.write = function(output) {
+  output.writeStructBegin('PuzzleMasterService_getPuzzleList_args');
+  if (this.limit !== null && this.limit !== undefined) {
+    output.writeFieldBegin('limit', Thrift.Type.I32, 1);
+    output.writeI32(this.limit);
+    output.writeFieldEnd();
+  }
+  if (this.skip !== null && this.skip !== undefined) {
+    output.writeFieldBegin('skip', Thrift.Type.I32, 2);
+    output.writeI32(this.skip);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+PuzzleMasterService_getPuzzleList_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Puzzle]);
+    }
+  }
+};
+PuzzleMasterService_getPuzzleList_result.prototype = {};
+PuzzleMasterService_getPuzzleList_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size0 = 0;
+        var _rtmp34;
+        this.success = [];
+        var _etype3 = 0;
+        _rtmp34 = input.readListBegin();
+        _etype3 = _rtmp34.etype;
+        _size0 = _rtmp34.size;
+        for (var _i5 = 0; _i5 < _size0; ++_i5)
+        {
+          var elem6 = null;
+          elem6 = new Puzzle();
+          elem6.read(input);
+          this.success.push(elem6);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+PuzzleMasterService_getPuzzleList_result.prototype.write = function(output) {
+  output.writeStructBegin('PuzzleMasterService_getPuzzleList_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter7 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter7))
+      {
+        iter7 = this.success[iter7];
+        iter7.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 PuzzleMasterServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
@@ -429,4 +571,54 @@ PuzzleMasterServiceClient.prototype.recv_startPuzzle = function() {
     return result.success;
   }
   throw 'startPuzzle failed: unknown result';
+};
+PuzzleMasterServiceClient.prototype.getPuzzleList = function(limit, skip, callback) {
+  this.send_getPuzzleList(limit, skip, callback); 
+  if (!callback) {
+    return this.recv_getPuzzleList();
+  }
+};
+
+PuzzleMasterServiceClient.prototype.send_getPuzzleList = function(limit, skip, callback) {
+  this.output.writeMessageBegin('getPuzzleList', Thrift.MessageType.CALL, this.seqid);
+  var args = new PuzzleMasterService_getPuzzleList_args();
+  args.limit = limit;
+  args.skip = skip;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_getPuzzleList();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+PuzzleMasterServiceClient.prototype.recv_getPuzzleList = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new PuzzleMasterService_getPuzzleList_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'getPuzzleList failed: unknown result';
 };
