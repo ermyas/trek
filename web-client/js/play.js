@@ -4,6 +4,7 @@ var playerId = "291aca633eea6175064ad18acf000669";
 var puzzle = null;
 var trailIndex;
 var trailLength;
+var puzzleId;
 
 function startPuzzle(puzzleId, zoom, lat, lon) {
     try {
@@ -15,11 +16,11 @@ function startPuzzle(puzzleId, zoom, lat, lon) {
 }
 
 window.onload = function () {
-    var pid = getURLParameter('pid');
+    puzzleId = getURLParameter('pid');
     var zoom = getURLParameter('z');
     var lat = getURLParameter('lt');
     var lon = getURLParameter('ln');
-    startPuzzle(pid, zoom, lat, lon);
+    startPuzzle(puzzleId, zoom, lat, lon);
 };
 
 function getURLParameter(name) {
