@@ -117,9 +117,7 @@ class PuzzleMasterServiceImpl(
   }
 
   override def getPuzzleList(limit: Option[Int], skip: Option[Int]): Future[Seq[Puzzle]] = {
-    println("Retrieving puzzle list from puzzle store")
-    val n = limit match { case Some(x) => x; case None => 10}
-    val k = skip match { case Some(x) => x; case None => 0}
-    puzzleClient.getAll(n, k)
+    log.info(s"Retrieving puzzle list (limit = $limit, skip = $skip)")
+    puzzleClient.getAll(limit.getOrElse(10), skip.getOrElse(0))
   }
 }
