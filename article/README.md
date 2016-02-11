@@ -184,6 +184,26 @@ containers when code is generated.
 2. Implement the service
 3. Stand up the service
 
+```Scala
+class PuzzleMasterServiceImpl(
+                               playerClient: PlayerService.FutureIface,
+                               puzzleClient: PuzzleService.FutureIface,
+                               timestampGenerator: TimeStampGenerator
+                             ) extends PuzzleMasterService.FutureIface {
+
+
+  override def startPuzzle(playerId: String, puzzleId: String) = 
+    puzzleClient.get(puzzleId)
+
+  override def getPuzzleList(limit: Option[Int], skip: Option[Int]): Future[Seq[Puzzle]] = {
+    (limit, skip) match {
+      case (Some(n), Some(k)) => puzzleClient.getAll(n, k)
+      case (Some(n), None) => puzzleClient.getAll(n, 0)
+      case _ => puzzleClient.getAll(10, 0)
+    }
+  }
+}
+```
 
 ## Accessing a service in Javascript
 
