@@ -8,6 +8,7 @@ import com.ibm.trek.puzzle.master._
 import com.ibm.trek.puzzle.PuzzleService
 import com.ibm.trek.puzzle.model._
 import com.ibm.trek.model._
+import org.slf4j.LoggerFactory
 
 class PuzzleMasterServiceImpl(
                                playerClient: PlayerService.FutureIface,
@@ -24,19 +25,20 @@ class PuzzleMasterServiceImpl(
 
   val difficultySettings = Map((difficulty.Easy, 1.0), (difficulty.Moderate, 0.5), (difficulty.Hard, 0.1))
   val defaultDifficulty = difficulty.Easy
+  val log = LoggerFactory.getLogger(getClass.getName)
 
 
   override def submitGuess(playerId: String, puzzleId: String, guess: Site, targetId: String): Future[PuzzleResponse] = {
     // Submit the visited site to the player service
-    println("Notifying player service")
+    log.info("Notifying player service")
     notifyPlayerService(PlayerSite(timestampGenerator(), guess, player = playerId, puzzle = puzzleId))
 
     // Retrieve the puzzle
-    println("Retrieving puzzle")
+    log.info("Retrieving puzzle")
     val puzzle = Await.result(puzzleClient.get(puzzleId))
 
     // Building a response for the user
-    println("Building a response")
+    log.info("Building a response")
     val responseTemplate = PuzzleResponse(playerId, puzzleId, Some(targetId))
     buildResponse(puzzle, guess, targetId, responseTemplate)
   }
@@ -103,8 +105,7 @@ class PuzzleMasterServiceImpl(
   }
 
   override def startPuzzle(playerId: String, puzzleId: String): Future[Puzzle] = {
-    println("Starting new puzzle")
-    println("player = " + playerId + ", puzzle = " + puzzleId)
+    log.info(s"Starting new puzzle ($puzzleId) for player ($playerId)")
     puzzleClient.get(puzzleId)
   }
 
