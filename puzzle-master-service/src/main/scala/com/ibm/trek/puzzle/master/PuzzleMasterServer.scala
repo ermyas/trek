@@ -12,22 +12,26 @@ import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.http.{Http => Httpx}
 import com.twitter.finagle.thrift.ThriftClientFramedCodec
 import com.twitter.finagle.{Http, Service}
+import com.twitter.server.TwitterServer
 import com.twitter.util.{Await, Duration}
 import org.apache.thrift.protocol.TJSONProtocol
 import org.apache.thrift.protocol.TJSONProtocol.Factory
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.jboss.netty.handler.codec.http.{HttpRequest, HttpResponse}
 
-object PuzzleMasterServer extends Server {
+object PuzzleMasterServer extends TwitterServer {
+  private val defaultHost = "0.0.0.0"
+  val serverHost = flag("host", defaultHost, "IP address to host this service on")
+  val serverPort = flag("port", 80, "Port number to host this service on")
   val playerServiceIp = flag("playerServiceIp", "0.0.0.0", "IP hosting player service")
   val playerServicePort = flag("playerServicePort", 8888, "Port number for talking to player service")
   val puzzleServiceIp = flag("puzzleServiceIp", "0.0.0.0", "IP hosting puzzle service")
   val puzzleServicePort = flag("puzzleServicePort", 8887, "Port number for talking to puzzle service")
 
   def createService(playerClient: PlayerService.FutureIface, puzzleClient: PuzzleService.FutureIface) = {
-    val puzzleMasterService: PuzzleMasterServiceImpl = new PuzzleMasterServiceImpl(playerClient,
+    val serviceImpl: PuzzleMasterServiceImpl = new PuzzleMasterServiceImpl(playerClient,
                                                                                    puzzleClient, new TimeStampGenerator)
-    new FinagledService(puzzleMasterService, new TJSONProtocol.Factory())
+    new FinagledService(serviceImpl, new TJSONProtocol.Factory())
   }
 
   def main() {
@@ -46,16 +50,10 @@ object PuzzleMasterServer extends Server {
     closeOnExit(server)
   }
 
-  private def createHttpClient(address: String): Service[HttpRequest, HttpResponse] = {
-    ClientBuilder().codec(Httpx()).hosts(address).hostConnectionLimit(Integer.MAX_VALUE).logger(Logger.getLogger
-    (getClass.getName)).tcpConnectTimeout(Duration.Top).retries(0).build()
-  }
-
   private def createPlayerClient(address: String): PlayerService.FinagledClient = {
     val transport = ClientBuilder().name("playerserviceclient").dest(address).
       codec(ThriftClientFramedCodec()).hostConnectionLimit(1).build()
     new PlayerService.FinagledClient(transport, protocolFactory = new TBinaryProtocol.Factory())
-//    new PlayerService.FinagledClient(new HttpClientFilter(address) andThen createHttpClient(address), protocolFactory = new Factory())
   }
 
   private def createPuzzleClient(address: String): PuzzleService.FinagledClient = {
