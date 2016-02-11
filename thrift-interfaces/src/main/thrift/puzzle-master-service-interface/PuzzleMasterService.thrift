@@ -19,6 +19,6 @@ service PuzzleMasterService {
       2: Model.PuzzleId puzzleId) throws (1: Exceptions.PuzzleDoesNotExist e);
 
     list<PuzzleModel.Puzzle> getPuzzleList(
-      1: i32 limit,
+      1: optional i32 limit,
       2: optional i32 skip);
 }
