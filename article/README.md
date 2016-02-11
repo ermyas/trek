@@ -178,30 +178,63 @@ typedef string PuzzleId
 *container types*, namely `set` and `map`. These correspond to standard
 containers when code is generated.
 
-## Implementing a service in Scala
+## Implementing a Thrift service in Scala
 
-1. Generate the Thrift source files
-2. Implement the service
-3. Stand up the service
+### Generate sources
+
+For many popular languages we can use the Thrift compiler to generate sources
+for use in our clients and servers. For example, to generate the Java sources
+we could do:
+
+```bash
+$ thrift --gen java PuzzleMasterService.thrift
+```
+
+While it would be possible to use these Java sources in Scala it not as clean.
+For this reason the engineers at Twitter wrote Scrooge which directly generates
+Scala code from Thrift definitions. It is available as an SBT plugin (see
+[https://twitter.github.io/scrooge/SBTPlugin.html](https://twitter.github.io/scrooge/SBTPlugin.html)
+for details) and can be run as follows:
+
+```bash
+$ sbt "project thriftInterfaces" scrooge-gen
+```
+
+This will generate sources into `target/scala/src_managed`.
+There you will find `PuzzleMasterService.scala` which contains the trait
+we will implement `PuzzleMasterService.FutureIface`.
+
+#### A note on includes in Thrift definitions
+
+When Scrooge resolves includes statements in a given Thrift definition file it looks relative
+to the current file and relative to any paths provided in the `scroogeThriftIncludeFolders` configuration:
+
+```scala
+lazy val thriftInterfaces = project.in(file("thrift-interfaces"))
+  .settings(commonSettings: _*)
+  .settings(scroogeThriftIncludeFolders := Seq(file("thrift-interfaces/src/main/thrift")))
+```
+
+This allows us to specify includes within each Thrift in way that makes IntelliJ happy:
+
+```scala
+include "puzzle-common-model/Model.thrift"
+```
+
+
+### Implement the service
+
+### Stand up the service
 
 ```Scala
-class PuzzleMasterServiceImpl(
-                               playerClient: PlayerService.FutureIface,
-                               puzzleClient: PuzzleService.FutureIface,
-                               timestampGenerator: TimeStampGenerator
-                             ) extends PuzzleMasterService.FutureIface {
+class PuzzleMasterServiceImpl (puzzleClient: PuzzleService.FutureIface) 
+  extends PuzzleMasterService.FutureIface {
 
-
-  override def startPuzzle(playerId: String, puzzleId: String) = 
+  override def startPuzzle(playerId: String, puzzleId: String): Future[Puzzle] = 
     puzzleClient.get(puzzleId)
 
-  override def getPuzzleList(limit: Option[Int], skip: Option[Int]): Future[Seq[Puzzle]] = {
-    (limit, skip) match {
-      case (Some(n), Some(k)) => puzzleClient.getAll(n, k)
-      case (Some(n), None) => puzzleClient.getAll(n, 0)
-      case _ => puzzleClient.getAll(10, 0)
-    }
-  }
+  override def getPuzzleList(limit: Option[Int], skip: Option[Int]): Future[Seq[Puzzle]] =
+    puzzleClient.getAll(limit.getOrElse(10), skip.getOrElse(0))
 }
 ```
 
