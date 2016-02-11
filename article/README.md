@@ -221,10 +221,10 @@ This allows us to specify includes within each Thrift in way that makes IntelliJ
 include "puzzle-common-model/Model.thrift"
 ```
 
-
 ### Implement the service
 
-### Stand up the service
+Now we provide implementations for the methods specified in the Thrift definition.
+We do this by extending the `PuzzleMasterService.FutureIface` trait:
 
 ```Scala
 class PuzzleMasterServiceImpl (puzzleClient: PuzzleService.FutureIface) 
@@ -238,10 +238,54 @@ class PuzzleMasterServiceImpl (puzzleClient: PuzzleService.FutureIface)
 }
 ```
 
+Notice that the PuzzleMasterServiceImpl takes a `puzzleClient` argument at
+instantiation. This greatly simplifies the implementation above with both
+methods essentially relaying requests to the puzzle client.
+
+
+### Stand up the server
+
+
+```scala
+object PuzzleMasterServer extends TwitterServer {
+
+  def main() {
+
+    val puzzleClient = createPuzzleClient(puzzleServiceAddress) // "host:port"
+    val serviceImpl = new PuzzleMasterServiceImpl(puzzleClient)
+    val service = new FinagledService(serviceImpl, new TJSONProtocol.Factory())
+    val server = Http.serve(serviceAddress, new HttpFilter andThen service)
+
+    Await.ready(server)
+    closeOnExit(server)
+  }
+
+  private def createPuzzleClient(address: String): PuzzleService.FinagledClient = {
+    val transport = ClientBuilder().name("puzzleserviceclient").dest(address).
+      codec(ThriftClientFramedCodec()).hostConnectionLimit(1).build()
+    new PuzzleService.FinagledClient(transport, protocolFactory = new TBinaryProtocol.Factory())
+  }
+
+}
+```
+
+We have made some simplifications here to help keep the discussion focussed.
+The full implementation is available and we encourage readers to review it
+for any details we have glossed over here.
+
+
 ## Accessing a service in Javascript
 
 1. Generate the Thrift source files
+
+```bash
+cd web-client
+thrift -r --gen js --o js ../thrift-interfaces/src/main/thrift/puzzle-master-service-interface/PuzzleMasterService.thrift
+```
+
 2. Include them as resources
+
+
 3. Issue remote procedure calls via the client
 
 
