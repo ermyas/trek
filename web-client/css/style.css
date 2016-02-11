@@ -100,7 +100,7 @@ body {
     opacity: 0.8
 }
 
-p, .btn {
+p .btn {
     position: relative;
     left: 220px;
     width: 200px;
