@@ -1,7 +1,7 @@
 namespace java com.ibm.trek.puzzle.master.model
 #@namespace scala com.ibm.trek.puzzle.master.model
 
-include "../puzzle-common-model/Model.thrift"
+include "puzzle-common-model/Model.thrift"
 
 struct Progress {
   1: byte currentStage,

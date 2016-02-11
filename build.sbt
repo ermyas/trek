@@ -41,7 +41,8 @@ lazy val commonSettings = Seq(
                              )
 
 // Projects
-lazy val thriftInterfaces = project.in(file("thrift-interfaces")).settings(commonSettings: _*)
+lazy val thriftInterfaces = project.in(file("thrift-interfaces")).settings(commonSettings: _*).settings(
+  scroogeThriftIncludeFolders := Seq( file("thrift-interfaces/src/main/thrift")) )
 
 lazy val common = project.in(file("puzzle-common")).settings(commonSettings: _*).dependsOn(thriftInterfaces)
 
