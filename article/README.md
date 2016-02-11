@@ -120,28 +120,63 @@ extensibility).
 
 ## Defining a service with Thrift
 
-What a thrift definition looks like
+Let's take a look at a Thrift definition for the `PuzzleMasterService`.
+The syntax borrows from Java and C.
+This service will handle requests from the gameplay client.
+
 
 ```C
-
 service PuzzleMasterService {
-
-    list<Puzzle> getPuzzleList (
-      1: i32 limit,
-      2: i32 skip
-    );
-
-    Puzzle startPuzzle( 
-      1: string playerId, 
-      2: string puzzleId
-    );
-
+    Puzzle startPuzzle( string playerId, string puzzleId );
+    list<Puzzle> getPuzzleList ( i32 limit, i32 skip );
 }
 ```
 
-While valid, this has been simplified to highlight the basic features.
+We have here a service called `PuzzleMasterService` with two method signatures:
+`startPuzzle` and `getPuzzleList`. This is similar to an interface definition
+in Java; it tells us what methods we must implement when providing this service
+and it tells clients what methods are available and what their arguments and
+return types are.
 
+Thrift offers a few base types (e.g., string and i32) and the ability to define
+your own using `Struct`s. `i32` is a 32-bit signed integer. Here we have used a
+custom `Puzzle` struct which is defined as follows:
 
+```C
+struct Puzzle {
+  1: optional Model.PuzzleId id,
+  2: list<PuzzleSite> trail,
+  3: string startMessage,
+  4: string endMessage,
+  5: Model.PlayerId owner,
+  6: optional Model.Coordinate startCoord,
+  7: optional i32 startZoom
+}
+```
+
+This `struct` definition introduces a few more features of Thrift. First, the
+members are numbered (a field identifier). This is to help with versioning. It
+is not strictly necessary (the compiler will add identifiers if they're absent)
+but it is good practice. The field identifier and the type are used to uniquely
+identify the field.
+
+Fields marked `optional` will not be serialized if they have not been set.
+The practical implications of this differ between languages as we shall see below.
+
+The type of the `id` field is `Model.PuzzleId`. This is actually just
+a `typedef` to ensure consistency across service definitions.
+We define a number of these aliases in a file `Model.thrift` that will
+be included in various service definitions. The *name* of the file without
+the extension becomes the namespace. Thus, in `Model.thrift` you will find
+the following definition:
+
+```C
+typedef string PuzzleId
+```
+
+ You will see a `trail` is a list of `PuzzleSite`s. There are two other
+*container types*, namely `set` and `map`. These correspond to standard
+containers when code is generated.
 
 ## Implementing a service in Scala
 
