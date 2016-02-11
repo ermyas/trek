@@ -103,14 +103,9 @@ class PuzzleMasterServiceImpl(
   }
 
   override def startPuzzle(playerId: String, puzzleId: String): Future[Puzzle] = {
-
     println("Starting new puzzle")
     println("player = " + playerId + ", puzzle = " + puzzleId)
-
-    val puzzle = Await.result(puzzleClient.get(puzzleId))
-    println(puzzle)
-
-    Future.value(puzzle)
+    puzzleClient.get(puzzleId)
   }
 
   def notifyPlayerService(playerSite: PlayerSite): PlayerSite =
@@ -121,16 +116,9 @@ class PuzzleMasterServiceImpl(
   }
 
   override def getPuzzleList(limit: Option[Int], skip: Option[Int]): Future[Seq[Puzzle]] = {
-
     println("Retrieving puzzle list from puzzle store")
-
-    val puzzleList = (limit, skip) match {
-      case (Some(n), Some(k)) => Await.result(puzzleClient.getAll(n, k))
-      case (Some(n), None) => Await.result(puzzleClient.getAll(n, 0))
-      case _ => Await.result(puzzleClient.getAll(10, 0))
-    }
-    println(puzzleList)
-
-    Future.value(puzzleList)
+    val n = limit match { case Some(x) => x; case None => 10}
+    val k = skip match { case Some(x) => x; case None => 0}
+    puzzleClient.getAll(n, k)
   }
 }
